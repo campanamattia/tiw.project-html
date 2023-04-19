@@ -89,7 +89,8 @@ public class UserDAO {
 	}
 	
 	// method that creates a new User after registration
-	public void registration(String userName, String password) throws SQLException {
+	public boolean registration(String userName, String password) throws SQLException {
+		boolean result = false;
 		String query = "INSERT into USER (UserName,Password) VALUES(?,?)";
 		PreparedStatement pStatement = null;
 		
@@ -97,8 +98,10 @@ public class UserDAO {
 			pStatement = con.prepareStatement(query);
 			pStatement.setString(1 , userName);
 			pStatement.setString(2 , password);
-			
-			pStatement.executeUpdate();//code is the number of updated row in the DB
+			if(!this.taken(userName)) {
+				pStatement.executeUpdate();
+				result = true;
+			}
 		}catch(SQLException e) {
 			throw new SQLException(e);
 		}finally {
@@ -110,7 +113,7 @@ public class UserDAO {
 				throw new SQLException(e1);
 			}
 		}
-		
+		return result;
 	}
 	
 }
