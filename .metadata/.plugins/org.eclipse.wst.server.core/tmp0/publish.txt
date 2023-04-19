@@ -1,0 +1,4 @@
+#Tomcat publish data
+#Wed Apr 19 11:15:38 CEST 2023
+org.eclipse.jst.jee.server\:Project=C\:\\Program Files\\apache-tomcat-9.0.73\\wtpwebapps\\Project
+org.eclipse.jst.jee.server\:TestProject=C\:\\Program Files\\apache-tomcat-9.0.73\\wtpwebapps\\TestProject
