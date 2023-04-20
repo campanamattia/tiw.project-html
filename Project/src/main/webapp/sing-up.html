@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="CSS/sing-up.css">
+        <title>THE PLAYLIST</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="box">
+                <div class="sing-up" id="sing-up">
+                    <div class="top-header">
+                        <h3>Sign Up, Now</h3>
+                        <small>We are happy to have you with us.</small>
+                    </div>
+                    <div class="input-group">
+                        <form action="SingUpServlet" method="post">
+                            <div class="input-field">
+                                <input type="text" class="input-box" id="Username" required>
+                                <label for="Username">Username</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="password" class="input-box" id="Password" required>
+                                <label for="Password">Password</label>
+                                <p th:class="error" th:text="${errorMsg}"></p>
+                            </div>
+                            <div class="input-field">
+                                <input type="submit" class="input-submit" value="Sign Up">
+                            </div>
+                        </form>
+                        <div class="sing-in">
+                            <a href="sing-in.html">Sing In</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

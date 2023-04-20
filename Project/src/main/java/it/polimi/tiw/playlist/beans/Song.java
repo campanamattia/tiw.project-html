@@ -6,7 +6,6 @@ public class Song{
     private String title;
     private String genre;
     private String fileAudio;
-    private String user;
     private Album album;
 
     public Song(){
@@ -14,16 +13,14 @@ public class Song{
         this.title = null;
         this.genre = null;
         this.fileAudio = null;
-        this.user = null;
         this.album = null;
     }
 
-    public Song(int id, String title, String genre, String fileAudio, String user, Album album){
+    public Song(int id, String title, String genre, String fileAudio, Album album){
         this.id = id;
         this.title = title;
         this.genre = genre;
         this.fileAudio = fileAudio;
-        this.user = user;
         this.album = album;
     }
 
@@ -53,13 +50,6 @@ public class Song{
     }
     public String getFileAudio() {
         return fileAudio;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-    public String getUser() {
-        return user;
     }
 
     public void setAlbum(Album album) {
