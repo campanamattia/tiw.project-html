@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import it.polimi.tiw.playlist.beans.User;
-
 public class UserDAO {
 	
 	private Connection con;
@@ -51,8 +49,8 @@ public class UserDAO {
 	}
 	
 	//method that returns the User(if exist) after the authentication
-	public User authentication(String userName, String password) throws SQLException {
-		User result = null;
+	public boolean authentication(String userName, String password) throws SQLException {
+		boolean result = false;
 		String query ="SELECT * FROM USER WHERE UserName = ? AND Password = ?";
 		ResultSet queryRes = null;
 		PreparedStatement pStatement = null;
@@ -65,7 +63,7 @@ public class UserDAO {
 			queryRes = pStatement.executeQuery();
 			
 			if(queryRes.next()) {
-				result = new User(queryRes.getString("UserName") , queryRes.getString("Password"));
+				result = true;
 			}	
 		}catch(SQLException e) {
 			throw new SQLException();

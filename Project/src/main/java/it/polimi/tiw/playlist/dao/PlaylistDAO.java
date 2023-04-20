@@ -92,7 +92,7 @@ public class PlaylistDAO {
 	}
 	
 	//method that creates a new playlist
-	public boolean create(String playlistName, String userName, Date creationDate) throws SQLException {
+	private boolean addPlaylist(String playlistName, String userName, Date creationDate) throws SQLException {
 		boolean result = false;
 		String query = "INSERT into PLAYLIST (Name , UserName, CreationDate) VALUES (? , ? , ?)";
 		PreparedStatement pStatement = null;
@@ -121,7 +121,7 @@ public class PlaylistDAO {
 	}
 	
 	//method that states whether a song is in a playlist or not
-	public boolean songAlreadyIn(String playlistName, String userName, int songId) throws SQLException {
+	private boolean songAlreadyIn(String playlistName, String userName, int songId) throws SQLException {
 		boolean result = false;
 		String query = "SELECT * FROM CONTAINS WHERE PlaylistName = ? AND PlaylistUser = ? AND Song = ?";
 		
@@ -159,7 +159,8 @@ public class PlaylistDAO {
 		return result;
 	}
 	
-	public boolean addSong(String playlistName, String userName, int songId) throws SQLException {
+	//method that adds the given song to the given playlist
+	public boolean addSongToPlaylist(String playlistName, String userName, int songId) throws SQLException {
 		boolean result = false;
 		String query = "INSERT into CONTAINS (PlaylistName, PlaylistUser, Song) VALUES (? , ? , ?)";
 		PreparedStatement pStatement = null;
@@ -183,6 +184,36 @@ public class PlaylistDAO {
 			}catch(Exception e2) {
 				throw new SQLException(e2);
 		    }
+		}
+		return result;
+	}
+	
+	//methods that creates a playlist wich contains some songs
+	public boolean addPlaylistWithSongs(String playlistName , String userName , Date creationDate , int[] songs) throws SQLException {
+		if(songs.length == 0) return false;
+		boolean result = false;
+		
+		try {
+			con.setAutoCommit(false);
+			
+			if(this.addPlaylist(playlistName, userName, creationDate)) {
+				boolean flag = true;
+				for(int i=0; i<songs.length && flag;i++) {
+					if(!this.addSongToPlaylist(playlistName, userName, songs[i])) {
+						flag = false;
+					}
+				}
+				if(flag) {
+					con.commit();
+					result = true;
+				}
+				else con.rollback();
+			}
+		}catch(SQLException e){
+			con.rollback();
+			throw e;
+		}finally {
+			con.setAutoCommit(true);
 		}
 		return result;
 	}
