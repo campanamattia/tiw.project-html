@@ -7,6 +7,7 @@
     font-family: 'Poppins', sans-serif;
 }
 body{
+    color: #404040;
     background: #404040;
     background-size: cover;
 }
@@ -25,13 +26,10 @@ body{
     width: 350px;
     background-color: #ccb4db;
     border-radius: 30px;
-    -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(15px);
     border: 3px solid rgba(255, 255, 255, 0.2);
     overflow: hidden;
-
 }
-.sing-in{
+.sign-in{
     position: absolute;
     width: 85%;
     left: 27px;
@@ -89,21 +87,21 @@ body{
     border-radius: 10px;
     background: #fce68a;
     color: #404040;
-    box-shadow: 0px 4px 20px rgba(62, 9, 9, 0.145);
+    box-shadow: 0 4px 20px rgba(62, 9, 9, 0.145);
     cursor: pointer;
     transition: .4s;
 }
 .input-submit:hover{
     background: #fce68a;
-    box-shadow: 0px 4px 20px rgba(62, 9, 9, 0.32);
+    box-shadow: 0 4px 20px rgba(62, 9, 9, 0.32);
 }
 
-.sing-up{
+.sign-up{
     text-align: center;
     font-size: 15px;
     margin-top: 40px;
 }
-.sing-up a{
+.sign-up a{
     text-decoration: none;
     color: #404040;
 }
