@@ -12,8 +12,8 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 
-@WebServlet("//SingInServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("//SignInServlet")
+public class SignInServlet extends HttpServlet {
 	
 	/**
 	 * 
@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
 	
-	public LoginServlet() {
+	public SignInServlet() {
 		super();
 	}
 	
