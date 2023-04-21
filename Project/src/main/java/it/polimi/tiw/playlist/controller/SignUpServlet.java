@@ -9,11 +9,10 @@ import java.sql.*;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.tiw.playlist.dao.UserDAO;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
+import it.polimi.tiw.playlist.utils.TemplateHandler;
 
 
 @WebServlet("/Sign Up")
@@ -33,12 +32,7 @@ public class SignUpServlet extends HttpServlet{
 		try {
 			ServletContext context = getServletContext();
 			this.connection = ConnectionHandler.getConnection(context);
-			
-			ServletContextTemplateResolver template = new ServletContextTemplateResolver(context);
-			this.templateEngine = new TemplateEngine();
-			template.setTemplateMode(TemplateMode.HTML);
-			this.templateEngine.setTemplateResolver(template);
-			template.setSuffix(".html");
+			this.templateEngine = TemplateHandler.getTemplateEngine(context);
 			
 		} catch (UnavailableException  e) {
 			
