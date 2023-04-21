@@ -59,17 +59,17 @@ public class SignInServlet extends HttpServlet {
 			} catch (SQLException e) {
 				error+=e.toString();
 			}
-			if(!error.equals("")) {
-				String path = "/sign-in.html";
-				ServletContext servletContext = getServletContext();
-				final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-				ctx.setVariable("error", error);
-				templateEngine.process(path, ctx, response.getWriter());
-				return;
-			} else {
-				String path = getServletContext().getContextPath() + "/Home";
-				response.sendRedirect(path);
-			}
+		}
+		if(!error.equals("")) {
+			String path = "/sign-in.html";
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("error", error);
+			templateEngine.process(path, ctx, response.getWriter());
+			return;
+		} else {
+			String path = getServletContext().getContextPath() + "/Home";
+			response.sendRedirect(path);
 		}
 	}
 	
