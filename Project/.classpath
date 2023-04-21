@@ -6,7 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/campa/Downloads/web/thymeleaf-3.1.0.RELEASE-dist/thymeleaf-3.1.0.RELEASE/dist/thymeleaf-3.1.0.RELEASE.jar">
+	<classpathentry kind="lib" path="C:/Users/campa/Downloads/thymeleaf-3.0.15.RELEASE.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

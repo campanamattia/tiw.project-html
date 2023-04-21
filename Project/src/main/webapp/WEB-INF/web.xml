@@ -4,8 +4,7 @@
 	version="4.0">
 	<servlet>
 		<servlet-name>SignInServlet</servlet-name>
-		<servlet-class>it.polimi.tiw.playlist.controller.SignInServlet</servlet-class>
-	</servlet>
+ 	</servlet>
 	<servlet-mapping>
 		<servlet-name>SignInServlet</servlet-name>
 		<url-pattern>/SignInServlet</url-pattern>

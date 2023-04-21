@@ -4,127 +4,56 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-png" href="IMAGES/icon.png">
         <link rel="stylesheet" href="CSS/home.css">
         <title>THE PLAYLIST</title>
     </head>
     <body>
-        <h1 class="title">
-            Home
-        </h1>
-        <div class="container-list">
-            <div class="box">
-                <div class="sign-in">
-                    <h3 class="subtitle">
-                        My Playlist
-                    </h3>
-                    <div class="vertical-list">
-                        <a href="#">
-                            Link 1
-                        </a>
-                        <a href="#">
-                            Link 2
-                        </a>
-                        <a href="#">
-                            Link 3
-                        </a>
-                        <a href="#">
-                            Link 4
-                        </a>
-                        <a href="#">
-                            Link 5
-                        </a>
-                        <a href="#">
-                            Link 6
-                        </a>
-                        <a href="#">
-                            Link 7
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
-                        <a href="#">
-                            Link 8
-                        </a>
+        <main>
+            <section class="glass">
+                <div class="dashboard">
+                    <div class="user">
+                        <h1 th:text="${user}">UserName</h1>
+                        <h2>Your Playlist</h2>
+                    </div>
+                    <div class="links">
+                        <div th:each="p: ${playlist}" th:class="link">
+                            <a th:href="@{GoToPlaylist(playlistID=${p.id}" href="sign-in.html">
+                                <h2 th:text="${p.title}">Title</h2>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="home">
+                    <div class="status">
+                        <h1>Home</h1>
+                        <input type="text" />
+                    </div>
+                    <div class="cards">
+                        <div class="card">
+                            <div class="card-info">
+                                <h2>Create Playlist</h2>
+                                <div class="input-group">
+                                    <form action="/LinkSong" method="post">
+                                        <div class="input-field">
+                                            <input type="text" class="input-box" id="name" required>
+                                            <label for="name">Title</label>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-info">
+                                <h2>Add Song</h2>
+                                <form>
 
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <br>
-        <div class="container">
-            <div class="box">
-                <div class="sign-in">
-                    <div class="top-header">
-                        <h3 class="subtitle">New Playlist</h3>
-                    </div>
-                    <div class="input-group">
-                        <form action="ciuccia" method="post">
-                            <div class="input-field">
-                                <input type="text" class="input-box" id="title" required>
-                                <label for="title">Title</label>
-                            </div>
-                            <div class="input-field">
-                                <input type="submit" class="input-submit" value="Create Playlist">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="sign-in">
-                    <div class="top-header">
-                        <h3 class="subtitle">New Playlist</h3>
-                    </div>
-                    <div class="input-group">
-                        <form action="/blabla" method="post">
-                            <div class="input-field">
-                                <input type="text" class="input-box" id="title" required>
-                                <label for="title">Title</label>
-                            </div>
-                            <div class="input-field">
-                                <input type="submit" class="input-submit" value="Create Playlist">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </section>
+        </main>
     </body>
 </html>

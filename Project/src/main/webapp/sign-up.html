@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/x-png" href="images/icon.png">
+        <link rel="icon" type="image/x-png" href="IMAGES/icon.png">
         <link rel="stylesheet" href="CSS/sign-up.css">
         <title>THE PLAYLIST</title>
     </head>
@@ -19,12 +19,12 @@
                     <div class="input-group">
                         <form action="SingUpServlet" method="post">
                             <div class="input-field">
-                                <input type="text" class="input-box" id="Username" required>
-                                <label for="Username">Username</label>
+                                <input type="text" class="input-box" id="userName" required>
+                                <label for="userName">UserName</label>
                             </div>
                             <div class="input-field">
-                                <input type="password" class="input-box" id="Password" required>
-                                <label for="Password">Password</label>
+                                <input type="password" class="input-box" id="password" required>
+                                <label for="password">Password</label>
                                 <p th:class="error" th:text="${errorMsg}"></p>
                             </div>
                             <div class="input-field">

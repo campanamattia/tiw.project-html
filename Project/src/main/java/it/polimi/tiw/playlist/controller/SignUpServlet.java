@@ -16,8 +16,8 @@ import it.polimi.tiw.playlist.dao.UserDAO;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
 
 
-@WebServlet("/Sign In")
-public class SignInServlet extends HttpServlet {
+@WebServlet("/Sign Up")
+public class SignUpServlet extends HttpServlet{
 	/**
 	 * 
 	 */
@@ -25,7 +25,7 @@ public class SignInServlet extends HttpServlet {
 	private Connection connection;
 	private TemplateEngine templateEngine;
 	
-	public SignInServlet() {
+	public SignUpServlet() {
 		super();
 	}
 	
@@ -55,18 +55,13 @@ public class SignInServlet extends HttpServlet {
 			error += "Missing parameters;";
 		else {
 			try {
-				if(new UserDAO(this.connection).authentication(userName, password)) {
-					HttpSession session = request.getSession(true);
-					if(session.isNew())
-						session.setAttribute("user", userName);
-				} else {
-					error+="Wrong UserName or Password";
-				}
+				if(! new UserDAO(this.connection).registration(userName, password))
+					error+="UserName already taken";
 			} catch (SQLException e) {
-				error+=e.toString();
+				error+= e.toString();
 			}
 			if(!error.equals("")) {
-				String path = "/sign-in.html";
+				String path = "/sign-up.html";
 				ServletContext servletContext = getServletContext();
 				final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 				ctx.setVariable("error", error);
@@ -81,5 +76,5 @@ public class SignInServlet extends HttpServlet {
 	
 	public void destroy() {
 	      ConnectionHandler.destroy(this.connection);
-    }
+  }
 }

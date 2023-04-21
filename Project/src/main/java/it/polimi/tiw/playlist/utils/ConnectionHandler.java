@@ -20,5 +20,13 @@ public class ConnectionHandler {
 		}
 		return result;
 	}
+	
+	public static void destroy(Connection connection) {
+	      try {
+	        if (connection != null){
+	            connection.close();
+	        }
+	      } catch (SQLException sqle) {}
+  }
 }
 
