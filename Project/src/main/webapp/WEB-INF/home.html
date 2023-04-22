@@ -53,13 +53,14 @@
                         <input type="text" name="songTitle" id="songTitle" required>
                         <br>
                         <label for="genre">Genre</label>
-                        <select id="genre" name="genre" required>
-                            <option value="other">Other</option>
-                            <option value="rap">Rap</option>
-                            <option value="rock">Rock</option>
-                            <option value="jazz">Jazz</option>
-                            <option value="pop">Pop</option>
-                        </select>
+                        <input list="genre"  name="genre" required>
+                        <datalist id="genre">
+                            <option value="others"></option>
+                            <option value="rap"></option>
+                            <option value="rock"></option>
+                            <option value="jazz"></option>
+                            <option value="pop"></option>
+                        </datalist>
                         <br>
                         <label for="fileAudio">Upload Track</label>
                         <input type="file" name="fileAudio" id="fileAudio" accept="audio/mp3, audio/wav" required>
@@ -73,7 +74,7 @@
                         <label for="fileImage">Upload Cover</label>
                         <input type="file" name="fileImage" id="fileImage" accept="img/*" required>
                         <br>
-                        <label for="year">Reales Year</label>
+                        <label for="year">Release Year</label>
                         <input type="number" name="year" id="year" required>
                         <br>
                         <input type="submit" class="submit" value="Create">

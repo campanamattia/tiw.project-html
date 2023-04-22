@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-png" href="../IMAGES/icon.png">
+        <link rel="stylesheet" href="../CSS/modify-playlist.css">
+        <title>THE PLAYLIST</title>
+    </head>
+    <body>
+        <h2 th:text="Modifying: ${playlistName}">Modifying: Playlist Name
+            <span >
+                <button type="submit" id="form" input type="submit" name="playlistName" td:value="${playlistName}">
+                    UPDATE
+                </button>
+            </span>
+        </h2>
+        <form id="form" action="/EditPlaylist" method="post" th:each="song, status: ${songs}">
+            <input type="checkbox" th:name="${status.index}" id="song" value="${song.id}">
+            <label for="song" th:text="${song.title}">song title</label>
+        </form>
+    </body>
+</html>
