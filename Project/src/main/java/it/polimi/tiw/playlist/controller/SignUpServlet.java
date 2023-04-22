@@ -9,11 +9,10 @@ import java.sql.*;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.tiw.playlist.dao.UserDAO;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
+import it.polimi.tiw.playlist.utils.TemplateHandler;
 
 
 @WebServlet("/Sign Up")
@@ -33,12 +32,7 @@ public class SignUpServlet extends HttpServlet{
 		try {
 			ServletContext context = getServletContext();
 			this.connection = ConnectionHandler.getConnection(context);
-			
-			ServletContextTemplateResolver template = new ServletContextTemplateResolver(context);
-			this.templateEngine = new TemplateEngine();
-			template.setTemplateMode(TemplateMode.HTML);
-			this.templateEngine.setTemplateResolver(template);
-			template.setSuffix(".html");
+			this.templateEngine = TemplateHandler.getTemplateEngine(context);
 			
 		} catch (UnavailableException  e) {
 			
@@ -52,7 +46,7 @@ public class SignUpServlet extends HttpServlet{
 		String error = "";
 		
 		if(userName == null || password == null || userName.isEmpty() || password.isEmpty())
-			error += "Missing parameters;";
+			error += "Missing parameters";
 		else {
 			try {
 				if(! new UserDAO(this.connection).registration(userName, password))
@@ -60,17 +54,17 @@ public class SignUpServlet extends HttpServlet{
 			} catch (SQLException e) {
 				error+= e.toString();
 			}
-			if(!error.equals("")) {
-				String path = "/sign-up.html";
-				ServletContext servletContext = getServletContext();
-				final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-				ctx.setVariable("error", error);
-				templateEngine.process(path, ctx, response.getWriter());
-				return;
-			} else {
-				String path = getServletContext().getContextPath() + "/Home";
-				response.sendRedirect(path);
-			}
+		}
+		if(!error.equals("")) {
+			String path = "/sign-up.html";
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("error", error);
+			templateEngine.process(path, ctx, response.getWriter());
+			return;
+		} else {
+			String path = getServletContext().getContextPath() + "/Home";
+			response.sendRedirect(path);
 		}
 	}
 	
