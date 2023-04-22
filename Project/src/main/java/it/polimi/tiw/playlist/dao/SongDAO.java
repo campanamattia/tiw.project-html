@@ -374,5 +374,42 @@ private Connection con;
 		}
 		return result;
 	}
+	
+	public boolean belongTo(int songId , String userName) throws SQLException{
+		boolean result = false;
+		String query = "SELECT * FROM song WHERE Id = ? AND User = ?";
+		PreparedStatement pStatement = null;
+		ResultSet queryRes = null;
+		
+		try {
+			pStatement = con.prepareStatement(query);
+			pStatement.setInt(1, songId);
+			pStatement.setString(2, userName);
+			
+			queryRes = pStatement.executeQuery();
+			
+			if(queryRes.next()) {
+				result = true;
+			}
+		}catch(SQLException e) {
+			throw new SQLException();
+		}finally {
+			try {
+				if(queryRes != null) {
+					queryRes.close();
+				}
+			}catch(Exception e1) {
+				throw new SQLException(e1);
+			}
+			try {
+				if(pStatement != null) {
+					pStatement.close();
+				}
+			}catch(Exception e2) {
+				throw new SQLException(e2);
+			}
+		}	
+		return result;
+	}	
 
 }
