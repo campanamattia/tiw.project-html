@@ -55,7 +55,7 @@ public class HomeServlet extends HttpServlet {
 			}
 		}
 		catch(SQLException e) {
-			playlistListError = "Database error: we are not able to load your palylists";
+			playlistListError = "Database error: Unable to load your palylists";
 		}
 		if(playlistListError != null) ctx.setVariable("playlistListError", playlistListError);
 		
@@ -68,7 +68,7 @@ public class HomeServlet extends HttpServlet {
 		
 		String songError = (String)session.getAttribute("songError");
 		if(songError != null) {
-			ctx.setVariable("psongError", songError);
+			ctx.setVariable("songError", songError);
 			session.removeAttribute("songError");
 		}
 		
