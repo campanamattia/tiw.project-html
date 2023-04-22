@@ -38,7 +38,7 @@ public class ModifyPlaylistServlet extends HttpServlet {
 		String userName = (String)session.getAttribute("user");
 		
 		try {
-			if(!(new PlaylistDAO(this.connection).belongTo(playlistName, userName))) {
+			if(playlistName == null || !(new PlaylistDAO(this.connection).belongTo(playlistName, userName))) {
 				String path = servletContext.getContextPath() + "/Home";
 				response.sendRedirect(path);
 				return;
