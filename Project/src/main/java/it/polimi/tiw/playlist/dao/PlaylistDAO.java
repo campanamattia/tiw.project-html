@@ -218,4 +218,43 @@ public class PlaylistDAO {
 		return result;
 	}
 	
+	//method that verifies whether a playlist belongs to the given user or not
+		public boolean belongTo(String playlistName , String userName) throws SQLException{
+			boolean result = false;
+			String query = "SELECT * FROM PLAYLIST WHERE Name = ? AND UserName = ?";
+			PreparedStatement pStatement = null;
+			ResultSet queryRes = null;
+			
+			try {
+				pStatement = con.prepareStatement(query);
+				pStatement.setString(1, playlistName);
+				pStatement.setString(2, userName);
+				
+				queryRes = pStatement.executeQuery();
+				
+				if(queryRes.next()) {
+					result = true;
+				}
+			}catch(SQLException e) {
+				throw new SQLException();
+			}finally {
+				try {
+					if(queryRes != null) {
+						queryRes.close();
+					}
+				}catch(Exception e1) {
+					throw new SQLException(e1);
+				}
+				try {
+					if(pStatement != null) {
+						pStatement.close();
+					}
+				}catch(Exception e2) {
+					throw new SQLException(e2);
+				}
+			}	
+			return result;
+		}	
+
+	
 }

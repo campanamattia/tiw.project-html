@@ -101,11 +101,22 @@ public class EditPlaylistServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
 		
+		
 		String playlistName = request.getParameter("playlistName");
-		EditType editType;
+		EditType editType = null;
 		if( request.getParameter("editType") == "CREATE") editType = EditType.CREATE;
-		else editType = EditType.MODIFY;
+		if( request.getParameter("editType") == "MODIFY") editType = EditType.MODIFY;
+		
+		
+		if(playlistName == null ||  editType == null) {
+			session.setAttribute("playlistError", "Something went wrong");
+			String path = servletContext.getContextPath() + "/Home";
+			response.sendRedirect(path);
+			return;
+		}
+		
 		String userName = (String)session.getAttribute("user");
+		
 	}
 	
 	public void destroy() {
