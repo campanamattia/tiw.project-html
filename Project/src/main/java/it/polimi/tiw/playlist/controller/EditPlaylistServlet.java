@@ -47,6 +47,8 @@ public class EditPlaylistServlet extends HttpServlet {
 		EditType editType = (EditType)session.getAttribute("editType");
 		session.removeAttribute("playlistName");
 		session.removeAttribute("editType");
+		ctx.setVariable("playlistName", playlistName);
+		ctx.setVariable("editType", editType);
 		String userName = (String)session.getAttribute("user");
 		
 		ArrayList<Song> songs = null;
@@ -78,7 +80,6 @@ public class EditPlaylistServlet extends HttpServlet {
 			}
 		}
 		if(error != null) ctx.setVariable("error", error);
-		ctx.setVariable("playlistName", playlistName);
 		
 		templateEngine.process("/WEB-INF/editPlaylist.html", ctx, response.getWriter());	
 	}
