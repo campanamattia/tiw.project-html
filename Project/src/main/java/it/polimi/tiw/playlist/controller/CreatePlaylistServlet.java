@@ -68,6 +68,6 @@ public class CreatePlaylistServlet extends HttpServlet {
 	
 	public void destroy() {
 	      ConnectionHandler.destroy(this.connection);
-  }
+	}
 	
 }

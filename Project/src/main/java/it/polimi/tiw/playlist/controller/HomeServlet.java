@@ -77,6 +77,6 @@ public class HomeServlet extends HttpServlet {
 	
 	public void destroy() {
 	      ConnectionHandler.destroy(this.connection);
-  }
+ 	}
 	
 }
