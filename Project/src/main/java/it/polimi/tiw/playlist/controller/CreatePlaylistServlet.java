@@ -2,17 +2,12 @@ package it.polimi.tiw.playlist.controller;
 
 import java.io.*;
 import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import java.sql.*;
 
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
-
 import it.polimi.tiw.playlist.dao.PlaylistDAO;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
-import it.polimi.tiw.playlist.utils.TemplateHandler;
 import it.polimi.tiw.playlist.utils.EditType;
 
 
@@ -20,7 +15,6 @@ public class CreatePlaylistServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
-	private TemplateEngine templateEngine;
 	
 	public CreatePlaylistServlet() {
 		super();
@@ -30,7 +24,6 @@ public class CreatePlaylistServlet extends HttpServlet {
 		try {
 			ServletContext context = getServletContext();
 			this.connection = ConnectionHandler.getConnection(context);
-			this.templateEngine = TemplateHandler.getTemplateEngine(context);
 			
 		} catch (UnavailableException  e) {
 			
@@ -67,8 +60,8 @@ public class CreatePlaylistServlet extends HttpServlet {
 		
 		session.setAttribute("playlistName", playlistName);
 		session.setAttribute("editType", EditType.CREATE);
-		String path = getServletContext().getContextPath() + "/EditPlaylist";
-
+		
+		String path = servletContext.getContextPath() + "/EditPlaylist";
 		RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);
 		dispatcher.forward(request,response);
 	}
