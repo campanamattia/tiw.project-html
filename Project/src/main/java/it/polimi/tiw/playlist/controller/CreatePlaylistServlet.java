@@ -41,6 +41,9 @@ public class CreatePlaylistServlet extends HttpServlet {
 		if(playlistName == null || playlistName.isEmpty()) {
 			playlistError = "Missing parameters";
 		}
+		else if(playlistName.length() > 50) {
+			playlistError = "Playlist name is too long";
+		}
 		if(playlistError == null){
 			try {
 				if(new PlaylistDAO(this.connection).taken(playlistName, userName)) {

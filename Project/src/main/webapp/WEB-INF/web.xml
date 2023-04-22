@@ -9,6 +9,16 @@
 		<servlet-name>SignInServlet</servlet-name>
 		<url-pattern>/SignInServlet</url-pattern>
 	</servlet-mapping>
+	
+	<context-param>
+		<param-name>imgFolderPath</param-name>
+		<param-value>C:\\Users\\franc\\Desktop\\UNI\\3°anno\\TIW\\tiw.project-html\\File\\Img</param-value>
+  	</context-param>
+  	<context-param>
+		<param-name>audioFolderPath</param-name>
+		<param-value>C:\\Users\\franc\\Desktop\\UNI\\3°anno\\TIW\\tiw.project-html\\File\\Audio</param-value>
+  	</context-param>
+	
 	<welcome-file-list>
 		<welcome-file>
 			sign-in.html

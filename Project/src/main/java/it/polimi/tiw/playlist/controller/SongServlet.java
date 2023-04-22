@@ -21,14 +21,19 @@ public class SongServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
 	private TemplateEngine templateEngine;
+	private String imgFolderPath;
+	private String audioFolderPath;
 	
 	public SongServlet() {
 		super();
 	}
 	
 	public void init() throws ServletException{
+		ServletContext context = getServletContext();
+		imgFolderPath = context.getInitParameter("imgFolderPath");
+		audioFolderPath = context.getInitParameter("audioFolderPath");
+		
 		try {
-			ServletContext context = getServletContext();
 			this.connection = ConnectionHandler.getConnection(context);
 			this.templateEngine = TemplateHandler.getTemplateEngine(context);
 			
@@ -41,6 +46,14 @@ public class SongServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
 		
+		String songTitle = (String)request.getAttribute("songTitle");
+		String genre = (String)request.getAttribute("genre");
+		String singer = (String)request.getAttribute("singer");
+		String fileImage = (String)request.getAttribute("fileImage");
+		String year = (String)request.getAttribute("year");
+		
+		Part fileAudio = (Part)request.getAttribute("fileAudio");
+		Part albumTitle = (Part)request.getAttribute("albumTitle");
 
 	}
 	
