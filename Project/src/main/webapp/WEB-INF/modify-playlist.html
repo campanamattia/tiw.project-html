@@ -16,9 +16,15 @@
                 </button>
             </span>
         </h2>
-        <form id="form" action="/EditPlaylist" method="post" th:each="song, status: ${songs}">
-            <input type="checkbox" th:name="${status.index}" id="song" value="${song.id}">
-            <label for="song" th:text="${song.title}">song title</label>
-        </form>
+        <div th:if="#${error}!=null">
+            <h3 th:text="${error}" style="color: red">error</h3>
+        </div>
+        <div th:else>
+            <form id="form" action="/EditPlaylist" method="post" th:each="song, status: ${songs}">
+                <input type="checkbox" th:name="${status.index}" id="song" value="${song.id}">
+                <label for="song" th:text="${song.title}">song title</label>
+            </form>
+        </div>
+        
     </body>
 </html>
