@@ -378,7 +378,7 @@ private Connection con;
 	//method that verifies whether a song belongs to the given user or not
 	public boolean belongTo(int songId , String userName) throws SQLException{
 		boolean result = false;
-		String query = "SELECT * FROM song WHERE Id = ? AND User = ?";
+		String query = "SELECT * FROM SONG WHERE Id = ? AND User = ?";
 		PreparedStatement pStatement = null;
 		ResultSet queryRes = null;
 		
