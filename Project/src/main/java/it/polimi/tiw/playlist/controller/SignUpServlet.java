@@ -46,7 +46,7 @@ public class SignUpServlet extends HttpServlet{
 		String error = "";
 		
 		if(userName == null || password == null || userName.isEmpty() || password.isEmpty())
-			error += "Missing parameters;";
+			error += "Missing parameters";
 		else {
 			try {
 				if(! new UserDAO(this.connection).registration(userName, password))
