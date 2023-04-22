@@ -37,6 +37,8 @@ public class EditPlaylistServlet extends HttpServlet {
 		}
 	}
 	
+	//this page must be accessible only through the CreatePlaylistServlet and ModifyPlaylistServlet doPost methods
+	//or through a failed doPost of this Servlet
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
@@ -45,10 +47,21 @@ public class EditPlaylistServlet extends HttpServlet {
 		//taking attributes from session
 		String playlistName = (String)session.getAttribute("playlistName");
 		EditType editType = (EditType)session.getAttribute("editType");
+		
+		//if someone tries to load the page directly from the url he will be redirected to the home page
+		if(playlistName == null || editType == null) {
+			String path = servletContext.getContextPath() + "/Home";
+			response.sendRedirect(path);
+			return;
+		}
+		
+		//removing attributes from the session because they identify that the page has been loaded through the correct doPost methods 
 		session.removeAttribute("playlistName");
 		session.removeAttribute("editType");
+		
+		//starting to prepare the presentation of the page
 		ctx.setVariable("playlistName", playlistName);
-		ctx.setVariable("editType", editType);
+		ctx.setVariable("editType", editType.toString());
 		String userName = (String)session.getAttribute("user");
 		
 		ArrayList<Song> songs = null;
@@ -84,7 +97,16 @@ public class EditPlaylistServlet extends HttpServlet {
 		templateEngine.process("/WEB-INF/editPlaylist.html", ctx, response.getWriter());	
 	}
 	
-	
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		HttpSession session = request.getSession(true);
+		ServletContext servletContext = getServletContext();
+		
+		String playlistName = request.getParameter("playlistName");
+		EditType editType;
+		if( request.getParameter("editType") == "CREATE") editType = EditType.CREATE;
+		else editType = EditType.MODIFY;
+		String userName = (String)session.getAttribute("user");
+	}
 	
 	public void destroy() {
 	      ConnectionHandler.destroy(this.connection);
