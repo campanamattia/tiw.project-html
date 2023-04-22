@@ -9,12 +9,21 @@
         <title>THE PLAYLIST</title>
     </head>
     <body>
-        <h2 th:text="Modifying: ${playlistName}">Modifying: Playlist Name
-            <span >
-                <button type="submit" id="form" input type="submit" name="playlistName" td:value="${playlistName}">
-                    UPDATE
-                </button>
+        <h2>
+            <span th:if="#${editType}=='CREATE'" th:text="CREATING: ${playlistName}">
+                CREATING: Playlist Name
             </span>
+            <span th:else th:text="MODIFYING: ${playlistName}">
+                MODIFYING: Playlist Name
+            </span>
+            <button type="submit" id="form" type="submit" name="editVariables" td:value="${editType}_${playlistName}">
+                <span th:if="#${editType} == 'CREATE'">
+                    SAVE
+                </span>
+                <span th:esle>
+                    UPDATE
+                </span>
+            </button>
         </h2>
         <div th:if="#${error}!=null">
             <h3 th:text="${error}" style="color: red">error</h3>
@@ -25,6 +34,5 @@
                 <label for="song" th:text="${song.title}">song title</label>
             </form>
         </div>
-        
     </body>
 </html>
