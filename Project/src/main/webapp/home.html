@@ -9,51 +9,11 @@
         <title>THE PLAYLIST</title>
     </head>
     <body>
-        <main>
-            <section class="glass">
-                <div class="dashboard">
-                    <div class="user">
-                        <h1 th:text="${user}">UserName</h1>
-                        <h2>Your Playlist</h2>
-                    </div>
-                    <div class="links">
-                        <div th:each="p: ${playlist}" th:class="link">
-                            <a th:href="@{GoToPlaylist(playlistID=${p.id}" href="sign-in.html">
-                                <h2 th:text="${p.title}">Title</h2>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="home">
-                    <div class="status">
-                        <h1>Home</h1>
-                        <input type="text" />
-                    </div>
-                    <div class="cards">
-                        <div class="card">
-                            <div class="card-info">
-                                <h2>Create Playlist</h2>
-                                <div class="input-group">
-                                    <form action="/LinkSong" method="post">
-                                        <div class="input-field">
-                                            <input type="text" class="input-box" id="name" required>
-                                            <label for="name">Title</label>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-info">
-                                <h2>Add Song</h2>
-                                <form>
+        <div>
+            <h1>Welcome </h1>
+            <h1 th:></h1>
+        </div>
+        <h2>HOME</h2>
 
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
     </body>
 </html>
