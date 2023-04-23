@@ -97,6 +97,12 @@ public class HomeServlet extends HttpServlet {
 			session.removeAttribute("songError");
 		}
 		
+		//taking the errors coming from other pages
+		if(session.getAttribute("generalError") != null) {
+			ctx.setVariable("generalError", (String)session.getAttribute("generalError"));
+			session.removeAttribute("generalError");
+		}
+		
 		templateEngine.process("/WEB-INF/home.html", ctx, response.getWriter());
 	}
 	
