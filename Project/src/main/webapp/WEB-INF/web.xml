@@ -23,8 +23,5 @@
 		<welcome-file>
 			sign-in.html
 		</welcome-file>
-		<welcome-file>
-			sign-up.html
-		</welcome-file>
 	</welcome-file-list>
 </web-app>
