@@ -32,55 +32,57 @@
                     </div>
                 </div>
             </div>
-            <div class="forms">
-                <div class="input-new-playlist">
-                    <h3>
-                        Create new Playlist
-                    </h3>
-                    <p th:text="${playlistError}" th:style="color: red" style="color:red">playlist error</p>
-                    <form action="/CreatePlaylist" method="post">
-                        <label for="playlistName">Playlist Name</label>
-                        <input type="text" name="playlistName" id="playlistName" required>
-                        <input type="submit" class="submit" value="Create">
-                    </form>
-                </div>
-                <div class="input-add-song" style="line-height: 2;">
-                    <h3></h3>
-                    <h3>Add Song</h3>
-                    <p th:text="${songError}" th:style="color: red" style="color:red">song error</p>
-                    <form action="/Song" method="post">
-                        <label for="songTitle">Song Title</label>
-                        <input type="text" name="songTitle" id="songTitle" required>
-                        <br>
-                        <label for="genre">Genre</label>
-                        <input list="genre"  name="genre" required>
-                        <datalist id="genre">
-                            <option value="others"></option>
-                            <option value="rap"></option>
-                            <option value="rock"></option>
-                            <option value="jazz"></option>
-                            <option value="pop"></option>
-                        </datalist>
-                        <br>
-                        <label for="fileAudio">Upload Track</label>
-                        <input type="file" name="fileAudio" id="fileAudio" accept="audio/mp3, audio/wav" required>
-                        <br>
-                        <label for="albumTitle">Album Title</label>
-                        <input type="text" name="albumTitle" id="albumTitle" required>
-                        <br>
-                        <label for="singer">Singer</label>
-                        <input type="text" name="singer" id="singer" required>
-                        <br>
-                        <label for="fileImage">Upload Cover</label>
-                        <input type="file" name="fileImage" id="fileImage" accept="img/*" required>
-                        <br>
-                        <label for="year">Release Year</label>
-                        <input type="number" name="year" id="year" required>
-                        <br>
-                        <input type="submit" class="submit" value="Create">
-                    </form>
-                </div>
+            <div class="input-new-playlist">
+                <h3>
+                    Create new Playlist
+                </h3>
+                <p th:text="${playlistError}" th:style="color: red" style="color:red">playlist error</p>
+                <form action="/CreatePlaylist" method="post">
+                    <label for="playlistName">Playlist Name</label>
+                    <input type="text" name="playlistName" id="playlistName" required>
+                    <input type="submit" class="submit" name="editType" value="CREATE">
+                    <div class="vertical" th:each="song, status: ${songs}">
+                        <input type="checkbox" th:name="${status.index}" id="${status.index}" value="${song.id}" required>
+                        <label for="${status.index}" th:text="${song.title}">song title</label>
+                    </div>
+                </form>
             </div>
+        </div>
+        <div class="input-add-song" style="line-height: 2;">
+            <h3></h3>
+            <h3>Add Song</h3>
+            <p th:text="${songError}" th:style="color: red" style="color:red">song error</p>
+            <form action="/Song" method="post">
+                <label for="songTitle">Song Title</label>
+                <input type="text" name="songTitle" id="songTitle" required>
+                <br>
+                <label for="genre">Genre</label>
+                <input list="genre"  name="genre" required>
+                <datalist id="genre">
+                    <option value="others"></option>
+                    <option value="rap"></option>
+                    <option value="rock"></option>
+                    <option value="jazz"></option>
+                    <option value="pop"></option>
+                </datalist>
+                <br>
+                <label for="fileAudio">Upload Track</label>
+                <input type="file" name="fileAudio" id="fileAudio" accept="audio/mp3, audio/wav" required>
+                <br>
+                <label for="albumTitle">Album Title</label>
+                <input type="text" name="albumTitle" id="albumTitle" required>
+                <br>
+                <label for="singer">Singer</label>
+                <input type="text" name="singer" id="singer" required>
+                <br>
+                <label for="fileImage">Upload Cover</label>
+                <input type="file" name="fileImage" id="fileImage" accept="img/*" required>
+                <br>
+                <label for="year">Release Year</label>
+                <input type="number" name="year" id="year" required>
+                <br>
+                <input type="submit" class="submit" value="Create">
+            </form>
         </div>
     </body>
 </html>

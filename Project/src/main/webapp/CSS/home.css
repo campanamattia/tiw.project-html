@@ -38,21 +38,11 @@ body{
     overflow-y: auto
 }
 
-.vertical a{
-    color: #ecdddd;
-    text-decoration: none;
-}
-.forms{
-    display: flex;
-    flex-flow: column wrap;
-    align-items: stretch;
-    justify-content: center;
-}
 
 .input-new-playlist{
     color: #404040;
     background-color: #ccb4db;
-    border-radius: 10rem;
+    border-radius: 5rem;
 }
 
 .input-add-song{
@@ -60,7 +50,7 @@ body{
     color: #404040;
     background-color: #ccb4db;
     border-radius: 5rem;
-    text-align: center;
+    text-align: left;
 }
 
 .submit{
