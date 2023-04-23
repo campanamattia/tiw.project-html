@@ -12,18 +12,18 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter( urlPatterns = {"/SignIn", "/SignUp"})
-public class NotLoggedChecker implements Filter {
+@WebFilter( urlPatterns = {"/Playlist"})
+public class PlaylistChecker implements Filter {
 	
-	//checks that the session is not active; in case it is not so, redirect to the Home page
+	//checks that the page is accessed through the button in the Home page; in case it is not so, redirect to the Home page
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-		String homePath = req.getServletContext().getContextPath() + "/Home";
+		String HomePath = req.getServletContext().getContextPath() + "/Home";
 
 		HttpSession s = req.getSession();
-		if (!s.isNew() && s.getAttribute("user") != null) {
-			res.sendRedirect(homePath);
+		if (s.isNew() || s.getAttribute("playlistName") == null) {
+			res.sendRedirect(HomePath);
 			return;
 		}
 		chain.doFilter(request, response);
