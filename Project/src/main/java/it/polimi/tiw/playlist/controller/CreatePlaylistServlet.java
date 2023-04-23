@@ -38,6 +38,7 @@ public class CreatePlaylistServlet extends HttpServlet {
 		String userName = (String)session.getAttribute("user");
 		String playlistError = null;
 		
+		//checking whether the given playlist name is valid or not
 		if(playlistName == null || playlistName.isEmpty()) {
 			playlistError = "Missing parameters";
 		}
@@ -61,6 +62,7 @@ public class CreatePlaylistServlet extends HttpServlet {
 			return;
 		}
 		
+		//forward to the EditPlaylist page
 		session.setAttribute("playlistName", playlistName);
 		session.setAttribute("editType", EditType.CREATE);
 		

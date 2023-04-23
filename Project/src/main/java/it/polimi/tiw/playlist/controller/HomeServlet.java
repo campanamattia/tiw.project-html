@@ -68,7 +68,7 @@ public class HomeServlet extends HttpServlet {
 		}
 		else if(playlistListError != null) ctx.setVariable("playlistListError", playlistListError);
 		
-		//taking the errors coming from the two forms in the page
+		//taking the errors coming from the two forms in the home page
 		String playlistError = (String)session.getAttribute("playlistError");
 		if(playlistError != null) {
 			ctx.setVariable("playlistError", playlistError);

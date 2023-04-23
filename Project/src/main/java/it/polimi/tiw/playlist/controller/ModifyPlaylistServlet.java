@@ -53,6 +53,7 @@ public class ModifyPlaylistServlet extends HttpServlet {
 			return;
 		}
 		
+		//forward to the EditPlaylist page
 		session.setAttribute("playlistName", playlistName);
 		session.setAttribute("editType", EditType.MODIFY);
 		
