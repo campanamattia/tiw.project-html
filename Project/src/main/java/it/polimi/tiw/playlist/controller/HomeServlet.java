@@ -59,16 +59,16 @@ public class HomeServlet extends HttpServlet {
 			playlistListError = "Database error: Unable to load your palylists";
 		}
 		
-		//taking the errors coming from the two forms in the page
-		String tempPlaylistListError = (String)session.getAttribute("playlistListError");
-		if(tempPlaylistListError != null) {
-			if(playlistListError == null) ctx.setVariable("playlistListError", tempPlaylistListError);
-			else ctx.setVariable("playlistListError", tempPlaylistListError + "\n" + playlistListError);
-			session.removeAttribute("playlistListError");
+		//taking errors coming from other pages
+		String generalError = (String)session.getAttribute("generalError");
+		if(generalError != null) {
+			if(playlistListError == null) ctx.setVariable("playlistListError", generalError);
+			else ctx.setVariable("playlistListError", generalError + "\n" + playlistListError);
+			session.removeAttribute("generalError");
 		}
 		else if(playlistListError != null) ctx.setVariable("playlistListError", playlistListError);
 		
-		
+		//taking the errors coming from the two forms in the page
 		String playlistError = (String)session.getAttribute("playlistError");
 		if(playlistError != null) {
 			ctx.setVariable("playlistError", playlistError);
@@ -90,19 +90,19 @@ public class HomeServlet extends HttpServlet {
 		
 		String playlistName = request.getParameter("playlistName");
 		String userName = (String)session.getAttribute("user");
-		String playlistListError = null;
+		String generalError = null;
 		
 		//checking if the playlist name is valid
 		try {
 			if(playlistName == null || playlistName.isEmpty() || !(new PlaylistDAO(this.connection).belongTo(playlistName, userName)) ) {
-				playlistListError = "Playlist not found";
+				generalError = "Playlist not found";
 			}
 		} catch (SQLException e) {
-			playlistListError = "Database error, try again";
+			generalError = "Database error, try again";
 		}
 		
-		if(playlistListError != null) {
-			session.setAttribute("playlistListError", playlistListError);
+		if(generalError != null) {
+			session.setAttribute("generalError", generalError);
 			String path = servletContext.getContextPath() + "/Home";
 			response.sendRedirect(path);
 			return;

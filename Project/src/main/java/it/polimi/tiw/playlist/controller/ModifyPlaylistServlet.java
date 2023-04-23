@@ -36,15 +36,20 @@ public class ModifyPlaylistServlet extends HttpServlet {
 		
 		String playlistName = request.getParameter("playlistName");
 		String userName = (String)session.getAttribute("user");
+		String error = null;
 		
+		//checking whther the playlistName is valid or not
 		try {
-			if(playlistName == null || !(new PlaylistDAO(this.connection).belongTo(playlistName, userName))) {
-				String path = servletContext.getContextPath() + "/Home";
-				response.sendRedirect(path);
-				return;
+			if(playlistName == null || playlistName.isEmpty() || !(new PlaylistDAO(this.connection).belongTo(playlistName, userName))) {
+				error = "You can not modify the selected playlist";
 			}	
 		} catch (SQLException e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error, try again");
+			error = "Database error, try again";
+		}
+		if(error != null) {
+			session.setAttribute("generalError", error);
+			String path = servletContext.getContextPath() + "/Home";
+			response.sendRedirect(path);
 			return;
 		}
 		
