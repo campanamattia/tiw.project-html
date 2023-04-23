@@ -189,7 +189,7 @@ public class PlaylistDAO {
 	}
 	
 	//methods that creates a playlist wich contains some songs
-	public boolean addPlaylistWithSongs(String playlistName , String userName , Date creationDate , int[] songs) throws SQLException {
+	public boolean addPlaylistWithSongs(String playlistName , String userName , Date creationDate , Integer[] songs) throws SQLException {
 		if(songs.length == 0) return false;
 		boolean result = false;
 		

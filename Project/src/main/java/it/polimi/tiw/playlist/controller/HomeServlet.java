@@ -110,6 +110,7 @@ public class HomeServlet extends HttpServlet {
 		
 		//forward to the playlist page
 		session.setAttribute("playlistName", playlistName);
+		session.setAttribute("editType", EditType.MODIFY);
 		
 		String path = servletContext.getContextPath() + "/Playlist";
 		RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);

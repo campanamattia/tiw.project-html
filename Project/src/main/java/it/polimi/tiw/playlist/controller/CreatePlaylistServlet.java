@@ -62,11 +62,11 @@ public class CreatePlaylistServlet extends HttpServlet {
 			return;
 		}
 		
-		//forward to the EditPlaylist page
+		//forward to the Playlist page
 		session.setAttribute("playlistName", playlistName);
 		session.setAttribute("editType", EditType.CREATE);
 		
-		String path = servletContext.getContextPath() + "/EditPlaylist";
+		String path = servletContext.getContextPath() + "/Playlist";
 		RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);
 		dispatcher.forward(request,response);
 	}

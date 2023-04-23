@@ -412,5 +412,42 @@ private Connection con;
 		}	
 		return result;
 	}	
+	
+	//method that returns how many songs belong to the given user
+	public int getNumOfSongsbyUser(String userName) throws SQLException{
+		int result = 0;
+		String query = "SELECT * FROM SONG JOIN ALBUM ON SONG.Album = ALBUM.Id WHERE SONG.User = ?";
+		ResultSet queryRes = null;
+		PreparedStatement pStatement = null;
+		
+		try {
+			pStatement = con.prepareStatement(query);
+			pStatement.setString(1, userName);
+			
+			queryRes = pStatement.executeQuery();
+			
+			while(queryRes.next()) {
+				result++;
+			}
+		}catch(SQLException e) {
+			throw new SQLException();
+		}finally {
+			try {
+				if(queryRes != null) {
+					queryRes.close();
+				}
+			}catch(Exception e1) {
+				throw new SQLException(e1);
+			}
+			try {
+				if(pStatement != null) {
+					pStatement.close();
+				}
+			}catch(Exception e2) {
+				throw new SQLException(e2);
+			}
+		}
+		return result;
+	}
 
 }

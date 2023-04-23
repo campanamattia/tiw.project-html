@@ -30,7 +30,7 @@
         </div>
         <div th:else>
             <form id="form" action="/EditPlaylist" method="post" th:each="song, status: ${songs}">
-                <input type="checkbox" th:name="${status.index}" id="song" value="${song.id}">
+                <input type="checkbox" th:name="'song' + ${status.index}" id="song" value="${song.id}">
                 <label for="song" th:text="${song.title}">song title</label>
             </form>
         </div>
