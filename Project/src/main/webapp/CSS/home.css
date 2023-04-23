@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+*{
+    margin: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    background: #404040;
+    color: #ecdddd;
+}
+
+.title{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.playlist{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.vertical{
+    min-width: max-content;
+    width: auto;
+    max-height: 400px;
+    overflow-y: auto
+}
+
+.vertical a{
+    color: #ecdddd;
+    text-decoration: none;
+}
+.forms{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.input-new-playlist{
+    color: #404040;
+    background-color: #ccb4db;
+    border-radius: 10rem;
+}
+
+.input-add-song{
+    min-width: max-content;
+    color: #404040;
+    background-color: #ccb4db;
+    border-radius: 5rem;
+    text-align: center;
+}
+
+.submit{
+    width: auto;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    background: #fce68a;
+    color: #404040;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(62, 9, 9, 0.145);
+    cursor: pointer;
+    transition: .5s;
+}
+.submit:hover{
+    background: #fce68a;
+    box-shadow: 0 4px 20px rgba(62, 9, 9, 0.320);
+}
