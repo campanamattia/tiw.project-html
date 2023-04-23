@@ -93,19 +93,30 @@ public class SongServlet extends HttpServlet {
 			return;
 		}
 		
-		//Checking the two Files
+		//Checking the image file
 		String fileImageName = Path.of(fileImage.getSubmittedFileName()).getFileName().toString();
-		if(!fileImage.getContentType().startsWith("image"))
-			songError = "The image file is not valid;";
+		if(fileImageName.contains("/")) songError = "'/' are not allowed in file names";
 		else {
-			if(fileImage.getSize() > 1000000) songError = "Image file size is too big;"; //1 000 000 bytes = 1MB
-			else if(fileImageName.length() > 50) songError = "Image file name is too long";
+			if(!fileImage.getContentType().startsWith("image")) songError = "The image file is not valid;";
+			else {
+				if(fileImage.getSize() > 1000000) songError = "Image file size is too big;"; //1 000 000 bytes = 1MB
+				else if(fileImageName.length() > 50) songError = "Image file name is too long";
+			}
 		}
 		
+		//if an error occurred, the home is reloaded
+		if(songError != null) {
+			session.setAttribute("songError", songError);
+			String path = servletContext.getContextPath() + "/Home";
+			response.sendRedirect(path);
+			return;
+		}
+		
+		//Checking the audio file
 		String fileAudioName = Path.of(fileAudio.getSubmittedFileName()).getFileName().toString();
-		if(songError == null) {
-			if(!fileAudio.getContentType().startsWith("audio"))
-				songError = "The audio file is not valid;";
+		if(fileAudioName.contains("/")) songError = "'/' are not allowed in file names";
+		else {
+			if(!fileAudio.getContentType().startsWith("audio")) songError = "The audio file is not valid;";
 			else {
 				if(fileAudio.getSize() > 1000000) songError = "Audio file size is too big;"; //1 000 000 bytes = 1MB
 				else if(fileAudioName.length() > 50) songError = "Audio file name is too long";	
