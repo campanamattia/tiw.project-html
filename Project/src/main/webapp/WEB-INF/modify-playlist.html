@@ -10,17 +10,11 @@
     </head>
     <body>
         <h2>
-            <span th:if="#${editType}=='CREATE'" th:text="CREATING: ${playlistName}">
-                CREATING: Playlist Name
-            </span>
-            <span th:else th:text="MODIFYING: ${playlistName}">
+            <span th:text="MODIFYING: ${playlistName}">
                 MODIFYING: Playlist Name
             </span>
             <button type="submit" id="form" type="submit" name="editVariables" td:value="${editType}_${playlistName}">
-                <span th:if="#${editType} == 'CREATE'">
-                    SAVE
-                </span>
-                <span th:esle>
+                <span>
                     UPDATE
                 </span>
             </button>
@@ -30,8 +24,8 @@
         </div>
         <div th:else>
             <form id="form" action="/EditPlaylist" method="post" th:each="song, status: ${songs}">
-                <input type="checkbox" th:name="${status.index}" id="song" value="${song.id}">
-                <label for="song" th:text="${song.title}">song title</label>
+                <input type="checkbox" th:name="${status.index}" id="${status.index}" value="${song.id}">
+                <label for="${status.index}" th:text="${song.title}">song title</label>
             </form>
         </div>
     </body>
