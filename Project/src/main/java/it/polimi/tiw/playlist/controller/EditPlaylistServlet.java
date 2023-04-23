@@ -10,6 +10,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import it.polimi.tiw.playlist.dao.SongDAO;
+import it.polimi.tiw.playlist.dao.PlaylistDAO;
 import it.polimi.tiw.playlist.beans.Song;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
 import it.polimi.tiw.playlist.utils.TemplateHandler;
@@ -48,8 +49,8 @@ public class EditPlaylistServlet extends HttpServlet {
 		String playlistName = (String)session.getAttribute("playlistName");
 		EditType editType = (EditType)session.getAttribute("editType");
 		
-		//if someone tries to load the page directly from the url he will be redirected to the home page
-		if(playlistName == null || editType == null) {
+		//if someone tries to load the page directly typing the url he will be redirected to the home page
+		if(playlistName == null || editType == null  || playlistName.isEmpty() ) {
 			String path = servletContext.getContextPath() + "/Home";
 			response.sendRedirect(path);
 			return;
@@ -100,22 +101,100 @@ public class EditPlaylistServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
+		String userName = (String)session.getAttribute("user");
+		String playlistError = null; // will be sent to the playlist page
+		String error = null; //will be sent to the home page
 		
-		
+		//taking playlistName and editType parameters
 		String playlistName = request.getParameter("playlistName");
 		EditType editType = null;
 		if( request.getParameter("editType") == "CREATE") editType = EditType.CREATE;
 		if( request.getParameter("editType") == "MODIFY") editType = EditType.MODIFY;
 		
+		//checking whether playlistName and editType parameters are valid or not
+		if(playlistName == null || playlistName.isEmpty() || editType == null) {
+			error = "Something went wrong";
+		}
+		if(error == null) {
+			
+			if(editType.equals(EditType.CREATE)) {
+				try {
+					if( playlistName.length() > 50 || new PlaylistDAO(this.connection).taken(playlistName,userName) ) {
+						error = "Something went wrong";
+					}
+				}
+				catch(SQLException e) {
+					error = "Database error, try again";
+				}
+			}
+			
+			if(editType.equals(EditType.MODIFY)) {
+				try {
+					if( !(new PlaylistDAO(this.connection).belongTo(playlistName,userName)) ) {
+						error = "Something went wrong";
+					}
+				}
+				catch(SQLException e) {
+					error = "Database error, try again";
+				}
+			}
+		}
 		
-		if(playlistName == null ||  editType == null) {
-			session.setAttribute("playlistError", "Something went wrong");
+		if(error != null) {
+			session.setAttribute("generalError", error);
 			String path = servletContext.getContextPath() + "/Home";
 			response.sendRedirect(path);
 			return;
 		}
 		
-		String userName = (String)session.getAttribute("user");
+		//taking the selected songs
+		SongDAO songDAO = new SongDAO(this.connection);
+		ArrayList<Integer> songToAdd = new ArrayList<Integer>();
+		
+		if(editType.equals(EditType.CREATE)) {
+			try {
+				int maxSize = songDAO.getNumOfSongsbyUser(userName);
+				for(Integer i=0; i<maxSize;i++) {
+					String song = request.getParameter("song"+i.toString());
+					if(song != null) { //This song has been chosen
+						Integer songId = Integer.parseInt(song);
+						if(songDAO.belongTo(songId, userName) ) {
+							songToAdd.add(songId);
+						}
+					}
+				}
+				if(songToAdd.isEmpty()) {
+					playlistError = "You must select at least one song";
+				}
+			}
+			catch(SQLException e) {
+				playlistError = "Database error, try again";
+			}
+			catch(NumberFormatException e1) {
+				error = "Something went wrong";
+			}
+		}
+		
+		if(editType.equals(EditType.MODIFY)) {
+			try {
+				String song = request.getParameter("song");
+				if(song != null) {
+					Integer songId = Integer.parseInt(song);
+					if(songDAO.belongTo(songId, userName) ) {
+						songToAdd.add(songId);
+					}
+				}
+				if(songToAdd.isEmpty()) {
+					playlistError = "No song selected";
+				}
+			}
+			catch(SQLException e) {
+				playlistError = "Database error, try again";
+			}
+			catch(NumberFormatException e1) {
+				error = "Something went wrong";
+			}
+		}
 		
 	}
 	

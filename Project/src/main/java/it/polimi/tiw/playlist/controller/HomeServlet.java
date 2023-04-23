@@ -12,6 +12,7 @@ import org.thymeleaf.context.WebContext;
 import it.polimi.tiw.playlist.dao.PlaylistDAO;
 import it.polimi.tiw.playlist.beans.Playlist;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
+import it.polimi.tiw.playlist.utils.EditType;
 import it.polimi.tiw.playlist.utils.TemplateHandler;
 import java.util.ArrayList;
 
@@ -57,9 +58,17 @@ public class HomeServlet extends HttpServlet {
 		catch(SQLException e) {
 			playlistListError = "Database error: Unable to load your palylists";
 		}
-		if(playlistListError != null) ctx.setVariable("playlistListError", playlistListError);
 		
-		//taking the errors coming from the two forms in the page
+		//taking errors coming from other pages
+		String generalError = (String)session.getAttribute("generalError");
+		if(generalError != null) {
+			if(playlistListError == null) ctx.setVariable("playlistListError", generalError);
+			else ctx.setVariable("playlistListError", generalError + "\n" + playlistListError);
+			session.removeAttribute("generalError");
+		}
+		else if(playlistListError != null) ctx.setVariable("playlistListError", playlistListError);
+		
+		//taking the errors coming from the two forms in the home page
 		String playlistError = (String)session.getAttribute("playlistError");
 		if(playlistError != null) {
 			ctx.setVariable("playlistError", playlistError);
@@ -73,6 +82,39 @@ public class HomeServlet extends HttpServlet {
 		}
 		
 		templateEngine.process("/WEB-INF/home.html", ctx, response.getWriter());
+	}
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		HttpSession session = request.getSession(true);
+		ServletContext servletContext = getServletContext();
+		
+		String playlistName = request.getParameter("playlistName");
+		String userName = (String)session.getAttribute("user");
+		String generalError = null;
+		
+		//checking if the playlist name is valid
+		try {
+			if(playlistName == null || playlistName.isEmpty() || !(new PlaylistDAO(this.connection).belongTo(playlistName, userName)) ) {
+				generalError = "Playlist not found";
+			}
+		} catch (SQLException e) {
+			generalError = "Database error, try again";
+		}
+		
+		if(generalError != null) {
+			session.setAttribute("generalError", generalError);
+			String path = servletContext.getContextPath() + "/Home";
+			response.sendRedirect(path);
+			return;
+		}
+		
+		//forward to the playlist page
+		session.setAttribute("playlistName", playlistName);
+		session.setAttribute("editType", EditType.MODIFY);
+		
+		String path = servletContext.getContextPath() + "/Playlist";
+		RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);
+		dispatcher.forward(request,response);
 	}
 	
 	public void destroy() {
