@@ -52,7 +52,7 @@
             <h3></h3>
             <h3>Add Song</h3>
             <p th:text="${songError}" th:style="color: red" style="color:red">song error</p>
-            <form action="/Song" method="post">
+            <form action="/Song" method="post" enctype="multipart/form-data">
                 <label for="songTitle">Song Title</label>
                 <input type="text" name="songTitle" id="songTitle" required>
                 <br>
@@ -84,5 +84,10 @@
                 <input type="submit" class="submit" value="Create">
             </form>
         </div>
+        <form action="/Logout" method="post">
+            <div class="logout">
+                <input type="submit" class="submit" value="Logout">
+            </div>
+        </form>
     </body>
 </html>
