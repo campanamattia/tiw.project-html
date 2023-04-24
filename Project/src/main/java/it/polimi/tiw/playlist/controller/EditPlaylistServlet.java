@@ -101,42 +101,26 @@ public class EditPlaylistServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
+		SongDAO songDAO = new SongDAO(this.connection);
+		PlaylistDAO playlistDAO = new PlaylistDAO(this.connection);
 		String userName = (String)session.getAttribute("user");
 		String playlistError = null; // will be sent to the playlist page
 		String error = null; //will be sent to the home page
 		
-		//taking playlistName and editType parameters
+		//checking whether playlistName parameter is valid or not
 		String playlistName = request.getParameter("playlistName");
-		EditType editType = null;
-		if( request.getParameter("editType") == "CREATE") editType = EditType.CREATE;
-		if( request.getParameter("editType") == "MODIFY") editType = EditType.MODIFY;
-		
-		//checking whether playlistName and editType parameters are valid or not
-		if(playlistName == null || playlistName.isEmpty() || editType == null) {
+
+		if(playlistName == null || playlistName.isEmpty()) {
 			error = "Something went wrong";
 		}
 		if(error == null) {
-			
-			if(editType.equals(EditType.CREATE)) {
-				try {
-					if( playlistName.length() > 50 || new PlaylistDAO(this.connection).taken(playlistName,userName) ) {
-						error = "Something went wrong";
-					}
-				}
-				catch(SQLException e) {
-					error = "Database error, try again";
+			try {
+				if( !(playlistDAO.belongTo(playlistName,userName)) ) {
+					error = "Something went wrong";
 				}
 			}
-			
-			if(editType.equals(EditType.MODIFY)) {
-				try {
-					if( !(new PlaylistDAO(this.connection).belongTo(playlistName,userName)) ) {
-						error = "Something went wrong";
-					}
-				}
-				catch(SQLException e) {
-					error = "Database error, try again";
-				}
+			catch(SQLException e) {
+				error = "Database error, try again";
 			}
 		}
 		
@@ -147,55 +131,54 @@ public class EditPlaylistServlet extends HttpServlet {
 			return;
 		}
 		
-		//taking the selected songs
-		SongDAO songDAO = new SongDAO(this.connection);
-		ArrayList<Integer> songToAdd = new ArrayList<Integer>();
+		//checking whether the selected song is valid or not
+		int songId = -1;
 		
-		if(editType.equals(EditType.CREATE)) {
-			try {
-				int maxSize = songDAO.getNumOfSongsbyUser(userName);
-				for(Integer i=0; i<maxSize;i++) {
-					String song = request.getParameter("song"+i.toString());
-					if(song != null) { //This song has been chosen
-						Integer songId = Integer.parseInt(song);
-						if(songDAO.belongTo(songId, userName) ) {
-							songToAdd.add(songId);
-						}
-					}
+		try {
+			String song = request.getParameter("song");
+			if(song != null) {
+				Integer tempId = Integer.parseInt(song);
+				if(songDAO.belongTo(tempId, userName) && 
+						songDAO.getSongsNotInPlaylist(playlistName, userName).stream().map(x -> x.getId()).filter(x -> x == tempId).findFirst().isPresent() ) {
+					songId = tempId;
 				}
-				if(songToAdd.isEmpty()) {
-					playlistError = "You must select at least one song";
-				}
+				else playlistError = "Song not found";
 			}
-			catch(SQLException e) {
-				playlistError = "Database error, try again";
-			}
-			catch(NumberFormatException e1) {
-				error = "Something went wrong";
-			}
+			else playlistError = "No song selected";
+		}
+		catch(SQLException e) {
+			playlistError = "Database error, try again";
+		}
+		catch(NumberFormatException e1) {
+			playlistError = "Something went wrong";
 		}
 		
-		if(editType.equals(EditType.MODIFY)) {
-			try {
-				String song = request.getParameter("song");
-				if(song != null) {
-					Integer songId = Integer.parseInt(song);
-					if(songDAO.belongTo(songId, userName) ) {
-						songToAdd.add(songId);
-					}
-				}
-				if(songToAdd.isEmpty()) {
-					playlistError = "No song selected";
-				}
-			}
-			catch(SQLException e) {
-				playlistError = "Database error, try again";
-			}
-			catch(NumberFormatException e1) {
-				error = "Something went wrong";
-			}
+		//if an error occurred, the playlist page will be reloaded
+		if(playlistError != null) {
+			session.setAttribute("playlistError", playlistError);
+			session.setAttribute("playlistName", playlistName);
+			String path = servletContext.getContextPath() + "/Playlist";
+			RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);
+			dispatcher.forward(request,response);
+			return;
 		}
 		
+		//Updating the database
+		try {
+			if(!playlistDAO.addSongToPlaylist(playlistName, userName, songId)) {
+				playlistError = "Database error: Unable to add this song";
+			}
+		} catch (SQLException e) {
+			playlistError = "Database error, try again";
+		}
+		
+		if(playlistError != null) {
+			session.setAttribute("playlistError", playlistError);
+		}
+		session.setAttribute("playlistName", playlistName);
+		String path = servletContext.getContextPath() + "/Playlist";
+		RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);
+		dispatcher.forward(request,response);
 	}
 	
 	public void destroy() {

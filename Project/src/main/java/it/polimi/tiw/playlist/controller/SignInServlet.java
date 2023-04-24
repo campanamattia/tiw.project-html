@@ -15,11 +15,9 @@ import it.polimi.tiw.playlist.utils.ConnectionHandler;
 import it.polimi.tiw.playlist.utils.TemplateHandler;
 
 
-@WebServlet("/Sign In")
+@WebServlet("/SignIn")
 public class SignInServlet extends HttpServlet {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
 	private TemplateEngine templateEngine;
@@ -39,38 +37,39 @@ public class SignInServlet extends HttpServlet {
 		}
 	}
 	
-	@Override
+	//method that checks the user credentials
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
-		String error = "";
+		String error = null;
 		
-		if(userName == null || password == null || userName.isEmpty() || password.isEmpty())
-			error += "Missing parameters";
+		//checking the given parameters
+		if(userName == null || password == null || userName.isEmpty() || password.isEmpty()) error = "Missing parameters";
 		else {
 			try {
 				if(new UserDAO(this.connection).authentication(userName, password)) {
 					HttpSession session = request.getSession(true);
-					if(session.isNew())
-						session.setAttribute("user", userName);
+					if(session.isNew()) session.setAttribute("user", userName);
 				} else {
-					error+="Wrong UserName or Password";
+					error = "Wrong UserName or Password";
 				}
 			} catch (SQLException e) {
-				error+=e.toString();
+				error = "Database error, try again";
 			}
 		}
-		if(!error.equals("")) {
-			String path = "/sign-in.html";
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		
+		//if an error occurred, the page will be reloaded 
+		if(error != null) {
 			ctx.setVariable("error", error);
-			templateEngine.process(path, ctx, response.getWriter());
+			templateEngine.process("/sign-in.html", ctx, response.getWriter());
 			return;
-		} else {
-			String path = getServletContext().getContextPath() + "/Home";
-			response.sendRedirect(path);
 		}
+			
+		//Redirect to the home page
+		String path = getServletContext().getContextPath() + "/Home";
+		response.sendRedirect(path);
 	}
 	
 	public void destroy() {

@@ -19,7 +19,7 @@ import it.polimi.tiw.playlist.utils.TemplateHandler;
 
 
 
-public class SongServlet extends HttpServlet {
+public class CreateSongServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
@@ -27,7 +27,7 @@ public class SongServlet extends HttpServlet {
 	private String imgFolderPath;
 	private String audioFolderPath;
 	
-	public SongServlet() {
+	public CreateSongServlet() {
 		super();
 	}
 	

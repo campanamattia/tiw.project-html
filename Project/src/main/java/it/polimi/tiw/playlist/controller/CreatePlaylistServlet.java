@@ -5,11 +5,11 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import it.polimi.tiw.playlist.dao.PlaylistDAO;
+import it.polimi.tiw.playlist.dao.SongDAO;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
-import it.polimi.tiw.playlist.utils.EditType;
-
 
 public class CreatePlaylistServlet extends HttpServlet {
 
@@ -33,10 +33,12 @@ public class CreatePlaylistServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
-		
-		String playlistName = request.getParameter("playlistName");
+		SongDAO songDAO = new SongDAO(this.connection);
+		PlaylistDAO playlistDAO = new PlaylistDAO(this.connection);
 		String userName = (String)session.getAttribute("user");
 		String playlistError = null;
+		
+		String playlistName = request.getParameter("playlistName");
 		
 		//checking whether the given playlist name is valid or not
 		if(playlistName == null || playlistName.isEmpty()) {
@@ -55,6 +57,7 @@ public class CreatePlaylistServlet extends HttpServlet {
 			}
 		}
 		
+		//if an error occurred, the home page will be reloaded
 		if(playlistError != null) {
 			session.setAttribute("playlistError", playlistError);
 			String path = servletContext.getContextPath() + "/Home";
@@ -62,13 +65,53 @@ public class CreatePlaylistServlet extends HttpServlet {
 			return;
 		}
 		
-		//forward to the Playlist page
-		session.setAttribute("playlistName", playlistName);
-		session.setAttribute("editType", EditType.CREATE);
+		//taking the selected songs and checking whether they are valid or not
+		ArrayList<Integer> songsToAdd = new ArrayList<Integer>();
 		
-		String path = servletContext.getContextPath() + "/Playlist";
-		RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);
-		dispatcher.forward(request,response);
+		try {
+			int maxSize = songDAO.getNumOfSongsbyUser(userName);
+			for(Integer i=0; i<maxSize;i++) {
+				
+				String song = request.getParameter("song"+i.toString());
+				if(song != null) { //This song has been chosen
+					
+					Integer songId = Integer.parseInt(song);
+					if(songDAO.belongTo(songId, userName) ) {
+						songsToAdd.add(songId);
+					}
+				}
+			}
+			if(songsToAdd.isEmpty()) {
+				playlistError = "You must select at least one song";
+			}
+		}
+		catch(SQLException e) {
+			playlistError = "Database error, try again";
+		}
+		catch(NumberFormatException e1) {
+			playlistError = "Something went wrong";
+		}
+		
+		if(playlistError != null) {
+			session.setAttribute("playlistError", playlistError);
+			String path = servletContext.getContextPath() + "/Home";
+			response.sendRedirect(path);
+			return;
+		}
+		
+		try {
+			if(!playlistDAO.addPlaylistWithSongs(playlistName, userName, new Date(System.currentTimeMillis()), (Integer[])songsToAdd.toArray())) {
+				playlistError = "Database error: unable to upload your playlist";
+			}
+		} catch(SQLException e) {
+			playlistError = "Database error, try again";
+		}
+		
+		if(playlistError != null) {
+			session.setAttribute("playlistError", playlistError);
+		}
+		String path = servletContext.getContextPath() + "/Home";
+		response.sendRedirect(path);
 	}
 	
 	public void destroy() {
