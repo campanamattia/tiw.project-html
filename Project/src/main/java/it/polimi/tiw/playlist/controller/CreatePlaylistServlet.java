@@ -30,6 +30,7 @@ public class CreatePlaylistServlet extends HttpServlet {
 		}
 	}
 	
+	//method that creates a playlist
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();

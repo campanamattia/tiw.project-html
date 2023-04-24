@@ -28,7 +28,7 @@ public class ForwardPlaylistServlet extends HttpServlet {
 		}
 	}
 	
-	//method called by EditPlaylistServlet doPost method through redirect, in order to not sent again the form when the user will refresh the playlist page
+	//method called by EditPlaylistServlet doPost method through redirect, in order to not send again the form when the user will refresh the playlist page
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();

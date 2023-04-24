@@ -45,6 +45,7 @@ public class CreateSongServlet extends HttpServlet {
 		}
 	}
 	
+	//method that creates a song
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();

@@ -38,6 +38,7 @@ public class HomeServlet extends HttpServlet {
 		}
 	}
 	
+	//method that prepares the presentation of the home page
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
@@ -106,6 +107,7 @@ public class HomeServlet extends HttpServlet {
 		templateEngine.process("/WEB-INF/home.html", ctx, response.getWriter());
 	}
 	
+	//method that sends the user to the selected playlist page
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
@@ -132,7 +134,6 @@ public class HomeServlet extends HttpServlet {
 		
 		//forward to the playlist page
 		session.setAttribute("playlistName", playlistName);
-		
 		String path = servletContext.getContextPath() + "/Playlist";
 		RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);
 		dispatcher.forward(request,response);

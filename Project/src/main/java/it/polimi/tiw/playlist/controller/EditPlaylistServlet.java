@@ -98,6 +98,7 @@ public class EditPlaylistServlet extends HttpServlet {
 		templateEngine.process("/WEB-INF/editPlaylist.html", ctx, response.getWriter());	
 	}
 	
+	//method that adds the selected song to the playlist
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
