@@ -156,10 +156,8 @@ public class EditPlaylistServlet extends HttpServlet {
 		//if an error occurred, the playlist page will be reloaded
 		if(playlistError != null) {
 			session.setAttribute("playlistError", playlistError);
-			session.setAttribute("playlistName", playlistName);
-			String path = servletContext.getContextPath() + "/Playlist";
-			RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);
-			dispatcher.forward(request,response);
+			String path = servletContext.getContextPath() + "/ForwardPlaylist?playlistName=" + playlistName;
+			response.sendRedirect(path);
 			return;
 		}
 		
@@ -175,10 +173,9 @@ public class EditPlaylistServlet extends HttpServlet {
 		if(playlistError != null) {
 			session.setAttribute("playlistError", playlistError);
 		}
-		session.setAttribute("playlistName", playlistName);
-		String path = servletContext.getContextPath() + "/Playlist";
-		RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);
-		dispatcher.forward(request,response);
+		String path = servletContext.getContextPath() + "/ForwardPlaylist?playlistName=" + playlistName;
+		response.sendRedirect(path);
+		return;
 	}
 	
 	public void destroy() {
