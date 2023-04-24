@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-png" href="../IMAGES/icon.png">
+        <link rel="stylesheet" href="../CSS/song.css">
+        <title>THE PLAYLIST</title>
+    </head>
+    <body>
+        <div class="container">
+            <img th:src="${album.fileImage}" alt="cover" src="../IMAGES/icon.png">
+            <div class="info">
+                <h1 th:text="${title}">Title</h1>
+                <h2 th:text="${album.singer}">Singer</h2>
+                <h3 th:text="${album.title}">Album</h3>
+                <p th:text="${genre}">Genre</p>
+            </div>
+        </div>
+        <div class="player">
+            <audio controls>
+                <source th:src="${fileAudio}" th:type="${songType}">
+                Your browser does not support the audio element.
+              </audio>
+        </div>
+    </body>
+</html>
