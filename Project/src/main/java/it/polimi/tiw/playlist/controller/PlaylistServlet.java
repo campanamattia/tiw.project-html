@@ -120,8 +120,11 @@ public class PlaylistServlet extends HttpServlet {
 		
 		//setting the correct path for the images
 		for(Song s : songs) {
-			Album a = s.getAlbum();
-			a.setFileImage(this.imgFolderPath + userName + "_" + a.getFileImage());
+			s.getAlbum().setFileImage(this.imgFolderPath + userName + "_" + s.getAlbum().getFileImage());
+		}
+		
+		for(Song s : notInPlaylistSongs) {
+			s.getAlbum().setFileImage(this.imgFolderPath + userName + "_" + s.getAlbum().getFileImage());
 		}
 		
 		//starting to prepare the presentation of the page
