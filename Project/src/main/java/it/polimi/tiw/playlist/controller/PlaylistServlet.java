@@ -44,6 +44,7 @@ public class PlaylistServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		SongDAO songDAO = new SongDAO(this.connection);
 		String userName = (String)session.getAttribute("user");
 		
 		//taking attributes from session
@@ -60,11 +61,27 @@ public class PlaylistServlet extends HttpServlet {
 		ArrayList<Song> allSongs = null;
 		String error = null;
 		try {
-			allSongs = new SongDAO(this.connection).getSongTitleAndImg(playlistName, userName);
+			allSongs = songDAO.getSongTitleAndImg(playlistName, userName);
 		}
 		catch(SQLException e) {
 			error = "Database error: Unable to load your playlist";
 		}
+		
+		//taking all the user's songs that are not in the playlist
+		ArrayList<Song> notInPlaylistSongs = null;
+		if(error == null) {
+			try {
+				notInPlaylistSongs = songDAO.getSongsNotInPlaylist(playlistName, userName);
+				if(notInPlaylistSongs == null || notInPlaylistSongs.isEmpty()) {
+					if(playlistError == null) playlistError = "You have no more songs to add";
+					else playlistError += "\nYou have no more songs to add";
+				}
+			}
+			catch(SQLException e) {
+				error = "Database error: Unable to load your playlist";
+			}
+		}
+		
 		if(error != null) {
 			session.setAttribute("generalError", error);
 			String path = servletContext.getContextPath() + "/Home";
@@ -72,7 +89,7 @@ public class PlaylistServlet extends HttpServlet {
 			return;
 		}
 		
-		//taking only the ones to render on the page
+		//taking only the songs to render on the page
 		ArrayList<Song> songs = new ArrayList<Song>();
 		for(int i=0; i<5 && error == null; i++) {
 			try {
@@ -94,6 +111,7 @@ public class PlaylistServlet extends HttpServlet {
 		ctx.setVariable("playlistName", playlistName);
 		if(playlistError != null) ctx.setVariable("playlistError", playlistError);
 		ctx.setVariable("songs", songs);
+		ctx.setVariable("notInPlaylistSongs", notInPlaylistSongs);
 		ctx.setVariable("lowerBound", lowerBound);
 		if(lowerBound == 0) ctx.setVariable("previousButton", 0);
 		else  ctx.setVariable("previousButton", 1);
