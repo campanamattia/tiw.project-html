@@ -11,6 +11,7 @@ import org.thymeleaf.context.WebContext;
 
 import it.polimi.tiw.playlist.dao.SongDAO;
 import it.polimi.tiw.playlist.beans.Song;
+import it.polimi.tiw.playlist.beans.Album;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
 import it.polimi.tiw.playlist.utils.TemplateHandler;
 import java.util.ArrayList;
@@ -20,14 +21,16 @@ public class PlaylistServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
 	private TemplateEngine templateEngine;
+	private String imgFolderPath;
 	
 	public PlaylistServlet() {
 		super();
 	}
 	
 	public void init() throws ServletException{
+		ServletContext context = getServletContext();
+		imgFolderPath = context.getInitParameter("imgFolderPath");
 		try {
-			ServletContext context = getServletContext();
 			this.connection = ConnectionHandler.getConnection(context);
 			this.templateEngine = TemplateHandler.getTemplateEngine(context);
 			
@@ -46,6 +49,7 @@ public class PlaylistServlet extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		SongDAO songDAO = new SongDAO(this.connection);
 		String userName = (String)session.getAttribute("user");
+		String error = null;
 		
 		//taking attributes from session
 		String playlistName = (String)session.getAttribute("playlistName");
@@ -57,9 +61,29 @@ public class PlaylistServlet extends HttpServlet {
 		session.removeAttribute("playlistError");
 		session.removeAttribute("lowerBound");
 		
+		//taking all the user's songs that are not in the playlist
+		ArrayList<Song> notInPlaylistSongs = null;
+		try {
+			notInPlaylistSongs = songDAO.getSongsNotInPlaylist(playlistName, userName);
+			if(notInPlaylistSongs == null || notInPlaylistSongs.isEmpty()) {
+				if(playlistError == null) playlistError = "You have no more songs to add";
+				else playlistError += "\nYou have no more songs to add";
+			}
+		}
+		catch(SQLException e) {
+			error = "Database error: Unable to load your playlist";
+		}
+		
+		//if an error occurred, the user will be redirected to the home page
+		if(error != null) {
+			session.setAttribute("generalError", error);
+			String path = servletContext.getContextPath() + "/Home";
+			response.sendRedirect(path);
+			return;
+		}
+		
 		//taking all the user's songs contained in the playlist
 		ArrayList<Song> allSongs = null;
-		String error = null;
 		try {
 			allSongs = songDAO.getSongTitleAndImg(playlistName, userName);
 		}
@@ -67,21 +91,7 @@ public class PlaylistServlet extends HttpServlet {
 			error = "Database error: Unable to load your playlist";
 		}
 		
-		//taking all the user's songs that are not in the playlist
-		ArrayList<Song> notInPlaylistSongs = null;
-		if(error == null) {
-			try {
-				notInPlaylistSongs = songDAO.getSongsNotInPlaylist(playlistName, userName);
-				if(notInPlaylistSongs == null || notInPlaylistSongs.isEmpty()) {
-					if(playlistError == null) playlistError = "You have no more songs to add";
-					else playlistError += "\nYou have no more songs to add";
-				}
-			}
-			catch(SQLException e) {
-				error = "Database error: Unable to load your playlist";
-			}
-		}
-		
+		//if an error occurred, the user will be redirected to the home page
 		if(error != null) {
 			session.setAttribute("generalError", error);
 			String path = servletContext.getContextPath() + "/Home";
@@ -100,11 +110,18 @@ public class PlaylistServlet extends HttpServlet {
 			}
 		}
 		
+		//if songs is empty the user is trying to load asection of the playlist in which there are no songs
 		if(songs.isEmpty()) {
 			session.setAttribute("generalError", error);
 			String path = servletContext.getContextPath() + "/Home";
 			response.sendRedirect(path);
 			return;
+		}
+		
+		//setting the correct path for the images
+		for(Song s : songs) {
+			Album a = s.getAlbum();
+			a.setFileImage(this.imgFolderPath + userName + "_" + a.getFileImage());
 		}
 		
 		//starting to prepare the presentation of the page
