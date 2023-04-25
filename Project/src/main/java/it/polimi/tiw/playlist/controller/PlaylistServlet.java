@@ -9,7 +9,6 @@ import java.sql.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
-import it.polimi.tiw.playlist.dao.PlaylistDAO;
 import it.polimi.tiw.playlist.dao.SongDAO;
 import it.polimi.tiw.playlist.beans.Song;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
