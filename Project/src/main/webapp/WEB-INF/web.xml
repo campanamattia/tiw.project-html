@@ -2,12 +2,113 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
 	version="4.0">
+	<display-name>tiw.project-html</display-name>
+	
+	<context-param>
+    <param-name>dbUrl</param-name>
+    <param-value>jdbc:mysql://localhost:3306/project</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dbUser</param-name>
+    <param-value>tiw23</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dbPassword</param-name>
+    <param-value>Fraternali!</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dbDriver</param-name>
+    <param-value>com.mysql.cj.jdbc.Driver</param-value>
+  </context-param>
+	
 	<servlet>
 		<servlet-name>SignInServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.SignInServlet</servlet-class>
  	</servlet>
 	<servlet-mapping>
 		<servlet-name>SignInServlet</servlet-name>
-		<url-pattern>/SignInServlet</url-pattern>
+		<url-pattern>/SignIn</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SignUpServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.SignUpServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+		<servlet-name>SignUpServlet</servlet-name>
+		<url-pattern>/SignUp</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>HomeServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.HomeServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+		<servlet-name>HomeServlet</servlet-name>
+		<url-pattern>/Home</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PlaylistServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.PlaylistServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+		<servlet-name>PlaylistServlet</servlet-name>
+		<url-pattern>/Playlist</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PlayerServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.PlayerServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+		<servlet-name>PlayerServlet</servlet-name>
+		<url-pattern>/Player</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ForwardPlaylistServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.ForwardPlaylistServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+		<servlet-name>ForwardPlaylistServlet</servlet-name>
+		<url-pattern>/ForwardPlaylist</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CreatePlaylistServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.CreatePlaylistServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+		<servlet-name>CreatePlaylistServlet</servlet-name>
+		<url-pattern>/CreatePlaylist</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>EditPlaylistServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.EditPlaylistServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+		<servlet-name>EditPlaylistServlet</servlet-name>
+		<url-pattern>/EditPlaylist</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CreateSongServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.CreateSongServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+		<servlet-name>CreateSongServlet</servlet-name>
+		<url-pattern>/CreateSong</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ButtonsServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.ButtonsServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+		<servlet-name>ButtonsServlet</servlet-name>
+		<url-pattern>/Buttons</url-pattern>
 	</servlet-mapping>
 	
 	<context-param>
