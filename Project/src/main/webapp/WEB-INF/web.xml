@@ -5,22 +5,22 @@
 	<display-name>tiw.project-html</display-name>
 	
 	<context-param>
-    <param-name>dbUrl</param-name>
-    <param-value>jdbc:mysql://localhost:3306/project</param-value>
-  </context-param>
-  <context-param>
-    <param-name>dbUser</param-name>
-    <param-value>tiw23</param-value>
-  </context-param>
-  <context-param>
-    <param-name>dbPassword</param-name>
-    <param-value>Fraternali!</param-value>
-  </context-param>
-  <context-param>
-    <param-name>dbDriver</param-name>
-    <param-value>com.mysql.cj.jdbc.Driver</param-value>
-  </context-param>
-	
+		<param-name>dbUrl</param-name>
+		<param-value>jdbc:mysql://localhost:3306/project</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>dbUser</param-name>
+	    <param-value>tiw23</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>dbPassword</param-name>
+	    <param-value>Fraternali!</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>dbDriver</param-name>
+	    <param-value>com.mysql.cj.jdbc.Driver</param-value>
+	</context-param>
+		
 	<servlet>
 		<servlet-name>SignInServlet</servlet-name>
 		<servlet-class>it.polimi.tiw.playlist.controller.SignInServlet</servlet-class>
