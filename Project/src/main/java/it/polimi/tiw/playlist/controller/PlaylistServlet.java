@@ -11,7 +11,6 @@ import org.thymeleaf.context.WebContext;
 
 import it.polimi.tiw.playlist.dao.SongDAO;
 import it.polimi.tiw.playlist.beans.Song;
-import it.polimi.tiw.playlist.beans.Album;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
 import it.polimi.tiw.playlist.utils.TemplateHandler;
 import java.util.ArrayList;

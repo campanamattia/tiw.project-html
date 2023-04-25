@@ -9,13 +9,9 @@ import javax.servlet.http.*;
 
 import java.sql.*;
 
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import java.util.Calendar;
-
 import it.polimi.tiw.playlist.dao.SongDAO;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
-import it.polimi.tiw.playlist.utils.TemplateHandler;
 
 
 
@@ -23,7 +19,6 @@ public class CreateSongServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
-	private TemplateEngine templateEngine;
 	private String imgFolderPath;
 	private String audioFolderPath;
 	
@@ -38,7 +33,6 @@ public class CreateSongServlet extends HttpServlet {
 		
 		try {
 			this.connection = ConnectionHandler.getConnection(context);
-			this.templateEngine = TemplateHandler.getTemplateEngine(context);
 			
 		} catch (UnavailableException  e) {
 			
