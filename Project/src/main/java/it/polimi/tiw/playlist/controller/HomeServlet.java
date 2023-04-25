@@ -125,6 +125,7 @@ public class HomeServlet extends HttpServlet {
 			playlistListError = "Database error, try again";
 		}
 		
+		//if an error occurred, the home page will be reloaded
 		if(playlistListError != null) {
 			session.setAttribute("playlistListError", playlistListError);
 			String path = servletContext.getContextPath() + "/Home";

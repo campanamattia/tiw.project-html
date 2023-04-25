@@ -9,6 +9,7 @@ import java.sql.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
+import it.polimi.tiw.playlist.dao.PlaylistDAO;
 import it.polimi.tiw.playlist.dao.SongDAO;
 import it.polimi.tiw.playlist.beans.Song;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
@@ -138,6 +139,47 @@ public class PlaylistServlet extends HttpServlet {
 		else ctx.setVariable("nextButton", 0);
 		
 		templateEngine.process("/WEB-INF/playlist.html", ctx, response.getWriter());	
+	}
+	
+	//method that sends the user to the selected song page
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		HttpSession session = request.getSession(true);
+		ServletContext servletContext = getServletContext();
+		String userName = (String)session.getAttribute("user");
+		String generalError = null;
+		
+		Integer songId = -1;
+		try{
+			if(request.getParameter("songId") == null || request.getParameter("songId").isEmpty()) generalError = "Song not found";
+			else songId = Integer.parseInt(request.getParameter("songId"));
+		}
+		catch(NumberFormatException e) {
+			generalError = "Song not found";
+		}
+
+		
+		//checking if the songId is valid
+		try {
+			if( !(new SongDAO(this.connection).belongTo(songId, userName)) ) {
+				generalError = "Song not found";
+			}
+		} catch (SQLException e) {
+			generalError = "Database error, try again";
+		}
+		
+		//if an error occurred, the user will be redirected to the home page
+		if(generalError != null) {
+			session.setAttribute("generalError", generalError);
+			String path = servletContext.getContextPath() + "/Home";
+			response.sendRedirect(path);
+			return;
+		}
+		
+		//forward to the song page
+		session.setAttribute("songId", songId);
+		String path = servletContext.getContextPath() + "/Player";
+		RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);
+		dispatcher.forward(request,response);
 	}
 		
 	public void destroy() {
