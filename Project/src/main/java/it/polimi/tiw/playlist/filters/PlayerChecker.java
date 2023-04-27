@@ -19,10 +19,10 @@ public class PlayerChecker implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-		String HomePath = req.getServletContext().getContextPath() + "/Home";
+		String HomePath = req.getServletContext().getContextPath() + "/Home?generalError=Song+not+found";
 
 		HttpSession s = req.getSession();
-		if (s.isNew() || s.getAttribute("songId") == null) {
+		if (s.isNew() || request.getParameter("SongId") == null || request.getParameter("SongId").isEmpty()) {
 			res.sendRedirect(HomePath);
 			return;
 		}

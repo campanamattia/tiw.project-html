@@ -9,6 +9,7 @@ import java.sql.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
+import it.polimi.tiw.playlist.dao.PlaylistDAO;
 import it.polimi.tiw.playlist.dao.SongDAO;
 import it.polimi.tiw.playlist.beans.Song;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
@@ -38,47 +39,56 @@ public class PlaylistServlet extends HttpServlet {
 		}
 	}
 	
-	//this page must be accessible only by selecting a playlist in the home page,
-	//by the buttons in the playlist page
-	// or through a doPost of EditPlaylistServlet (using ForwardPlaylist).
-	//Doing so, the parameters in the session have been already checked
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		SongDAO songDAO = new SongDAO(this.connection);
+		PlaylistDAO playlistDAO = new PlaylistDAO(this.connection);
 		String userName = (String)session.getAttribute("user");
 		String error = null;
 		
-		//taking attributes from session
-		String playlistName = (String)session.getAttribute("playlistName");
-		String playlistError = (String)session.getAttribute("playlistError");
-		int lowerBound = session.getAttribute("lowerBound") != null ? (Integer)session.getAttribute("lowerBound") : 0;
+		//taking attributes
+		String playlistName = request.getParameter("playlistName"); //its existence is checked by the filter
+		String message = request.getParameter("message") != null ? request.getParameter("message").replaceAll("+", " ") : null;
+		String playlistError = request.getParameter("playlistError") != null ? request.getParameter("playlistError").replaceAll("+", " ") : "";
+		int lowerBound = -1;
+		try {
+			lowerBound = request.getParameter("lowerBound") != null ? Integer.parseInt(request.getParameter("lowerBound")) : 0;
+		}
+		catch(NumberFormatException e) {
+			lowerBound = 0;
+		}
 		
-		//removing attributes from the session because they identify that the page has been loaded in the intended way 
-		session.removeAttribute("playlistName");
-		session.removeAttribute("playlistError");
-		session.removeAttribute("lowerBound");
+		//checking the playlist name
+		try {
+			if( !(playlistDAO.belongTo(playlistName, userName)) ) {
+				String path = servletContext.getContextPath() + "/Home?generalError=Playlist+not+found";
+				response.sendRedirect(path);
+				return;
+			}
+		} catch (SQLException | IOException e1) {
+			String path = servletContext.getContextPath() + "/Home?generalError=Database+error,+try+again";
+			response.sendRedirect(path);
+			return;
+		}
+		
+		//checking the lower bound
+		if(lowerBound%5 != 0) {
+			if(lowerBound%5 <= 2) lowerBound -= lowerBound%5;
+			else lowerBound += 5-lowerBound%5;
+		}
 		
 		//taking all the user's songs that are not in the playlist
 		ArrayList<Song> notInPlaylistSongs = null;
 		try {
 			notInPlaylistSongs = songDAO.getSongsNotInPlaylist(playlistName, userName);
 			if(notInPlaylistSongs == null || notInPlaylistSongs.isEmpty()) {
-				if(playlistError == null) playlistError = "You have no more songs to add";
-				else playlistError += "\nYou have no more songs to add";
+				playlistError += "\nYou have no more songs to add";
 			}
 		}
 		catch(SQLException e) {
-			error = "Database error: Unable to load your playlist";
-		}
-		
-		//if an error occurred, the user will be redirected to the home page
-		if(error != null) {
-			session.setAttribute("generalError", error);
-			String path = servletContext.getContextPath() + "/Home";
-			response.sendRedirect(path);
-			return;
+			playlistError += "\nDatabase error: Unable to load your playlist";
 		}
 		
 		//taking all the user's songs contained in the playlist
@@ -92,8 +102,7 @@ public class PlaylistServlet extends HttpServlet {
 		
 		//if an error occurred, the user will be redirected to the home page
 		if(error != null) {
-			session.setAttribute("generalError", error);
-			String path = servletContext.getContextPath() + "/Home";
+			String path = servletContext.getContextPath() + "/Home?generalError=" + error.replaceAll(" ", "+");
 			response.sendRedirect(path);
 			return;
 		}
@@ -109,10 +118,9 @@ public class PlaylistServlet extends HttpServlet {
 			}
 		}
 		
-		//if songs is empty the user is trying to load asection of the playlist in which there are no songs
+		//if songs is empty the user is trying to load a section of the playlist in which there are no songs
 		if(songs.isEmpty()) {
-			session.setAttribute("generalError", error);
-			String path = servletContext.getContextPath() + "/Home";
+			String path = servletContext.getContextPath() + "/Home?generalError=" + error.replaceAll(" ", "+");
 			response.sendRedirect(path);
 			return;
 		}
@@ -122,13 +130,16 @@ public class PlaylistServlet extends HttpServlet {
 			s.getAlbum().setFileImage(this.imgFolderPath + userName + "_" + s.getAlbum().getFileImage());
 		}
 		
-		for(Song s : notInPlaylistSongs) {
-			s.getAlbum().setFileImage(this.imgFolderPath + userName + "_" + s.getAlbum().getFileImage());
+		if(notInPlaylistSongs != null) {
+			for(Song s : notInPlaylistSongs) {
+				s.getAlbum().setFileImage(this.imgFolderPath + userName + "_" + s.getAlbum().getFileImage());
+			}
 		}
 		
 		//starting to prepare the presentation of the page
 		ctx.setVariable("playlistName", playlistName);
-		if(playlistError != null) ctx.setVariable("playlistError", playlistError);
+		if(message != null) ctx.setVariable("message", message);
+		if(playlistError != "") ctx.setVariable("playlistError", playlistError);
 		ctx.setVariable("songs", songs);
 		ctx.setVariable("notInPlaylistSongs", notInPlaylistSongs);
 		ctx.setVariable("lowerBound", lowerBound);
@@ -138,47 +149,6 @@ public class PlaylistServlet extends HttpServlet {
 		else ctx.setVariable("nextButton", 0);
 		
 		templateEngine.process("/WEB-INF/playlist.html", ctx, response.getWriter());	
-	}
-	
-	//method that sends the user to the selected song page
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-		HttpSession session = request.getSession(true);
-		ServletContext servletContext = getServletContext();
-		String userName = (String)session.getAttribute("user");
-		String generalError = null;
-		
-		Integer songId = -1;
-		try{
-			if(request.getParameter("songId") == null || request.getParameter("songId").isEmpty()) generalError = "Song not found";
-			else songId = Integer.parseInt(request.getParameter("songId"));
-		}
-		catch(NumberFormatException e) {
-			generalError = "Song not found";
-		}
-
-		
-		//checking if the songId is valid
-		try {
-			if( !(new SongDAO(this.connection).belongTo(songId, userName)) ) {
-				generalError = "Song not found";
-			}
-		} catch (SQLException e) {
-			generalError = "Database error, try again";
-		}
-		
-		//if an error occurred, the user will be redirected to the home page
-		if(generalError != null) {
-			session.setAttribute("generalError", generalError);
-			String path = servletContext.getContextPath() + "/Home";
-			response.sendRedirect(path);
-			return;
-		}
-		
-		//forward to the song page
-		session.setAttribute("songId", songId);
-		String path = servletContext.getContextPath() + "/Player";
-		RequestDispatcher dispatcher = servletContext.getRequestDispatcher(path);
-		dispatcher.forward(request,response);
 	}
 		
 	public void destroy() {

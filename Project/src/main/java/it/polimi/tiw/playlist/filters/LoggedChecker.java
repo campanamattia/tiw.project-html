@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter( urlPatterns = {"/Home", "/Playlist", "/Player", "/CreatePlaylist", "/EditPlaylist", "/CreateSong", "/Buttons", "/ForwardPlaylist"})
+@WebFilter( urlPatterns = {"/Home", "/Playlist", "/Player", "/CreatePlaylist", "/EditPlaylist", "/CreateSong"})
 public class LoggedChecker implements Filter {
 	
 	//checks that the session is active; in case it is not so, redirect to the Sign In page

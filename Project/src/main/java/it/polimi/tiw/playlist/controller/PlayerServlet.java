@@ -39,21 +39,41 @@ public class PlayerServlet extends HttpServlet {
 		}
 	}
 	
-	//this page must be accessible only by selecting a song in the playlist page,
-	//Doing so, the parameters in the session have been already checked
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(true);
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		String userName = (String)session.getAttribute("user");
 		SongDAO songDAO = new SongDAO(this.connection);
 		String songError = null;
 		
-		//taking attributes from session
-		String userName = (String)session.getAttribute("user");
-		Integer songId = (Integer)session.getAttribute("songId");
+		//taking songId attribute
+		Integer songId = -1;
+		try{
+			songId = Integer.parseInt(request.getParameter("SongId"));
+		}
+		catch(NumberFormatException e) {
+			String path = servletContext.getContextPath() + "/Home?generalError=Song+not+found";
+			response.sendRedirect(path);
+			return;
+		}
 		
-		//removing the attribute from the session because it identifies that the page has been loaded in the intended way 
-		session.removeAttribute("songId");
+		//checking song attribute
+		String generalError = null;
+		try {
+			if( !(songDAO.belongTo(songId, userName)) ) {
+				generalError = "Song not found";
+			}
+		} catch (SQLException e) {
+			generalError = "Database error, try again";
+		}
+		
+		//if an error occurred, the user will be redirected to the home page
+		if(generalError != null) {
+			String path = servletContext.getContextPath() + "/Home?generalError=" + generalError.replaceAll(" ", "+");
+			response.sendRedirect(path);
+			return;
+		}
 		
 		//taking the song details
 		Song song = null;

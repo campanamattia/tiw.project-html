@@ -82,8 +82,7 @@ public class CreateSongServlet extends HttpServlet {
 		
 		//if an error occurred, the home page is reloaded
 		if(songError != null) {
-			session.setAttribute("songError", songError);
-			String path = servletContext.getContextPath() + "/Home";
+			String path = servletContext.getContextPath() + "/Home?songError=" + songError.replaceAll(" ", "+");
 			response.sendRedirect(path);
 			return;
 		}
@@ -101,8 +100,7 @@ public class CreateSongServlet extends HttpServlet {
 		
 		//if an error occurred, the home is reloaded
 		if(songError != null) {
-			session.setAttribute("songError", songError);
-			String path = servletContext.getContextPath() + "/Home";
+			String path = servletContext.getContextPath() + "/Home?songError=" + songError.replaceAll(" ", "+");
 			response.sendRedirect(path);
 			return;
 		}
@@ -120,8 +118,7 @@ public class CreateSongServlet extends HttpServlet {
 		
 		//if an error occurred, the home is reloaded
 		if(songError != null) {
-			session.setAttribute("songError", songError);
-			String path = servletContext.getContextPath() + "/Home";
+			String path = servletContext.getContextPath() + "/Home?songError=" + songError.replaceAll(" ", "+");
 			response.sendRedirect(path);
 			return;
 		}
@@ -158,8 +155,7 @@ public class CreateSongServlet extends HttpServlet {
 		
 		//if an error occurred, the home is reloaded
 		if(songError != null) {
-			session.setAttribute("songError", songError);
-			String path = servletContext.getContextPath() + "/Home";
+			String path = servletContext.getContextPath() + "/Home?songError=" + songError.replaceAll(" ", "+");
 			response.sendRedirect(path);
 			return;
 		}
@@ -181,11 +177,14 @@ public class CreateSongServlet extends HttpServlet {
 			songError = "Database error, try again";
 		}
 		
-		if(songError != null) {
-			session.setAttribute("songError", songError);
-		}
 		
 		String path = servletContext.getContextPath() + "/Home";
+		if(songError != null) {
+			path += "?songError=" + songError.replaceAll(" ", "+");
+		}
+		else path += "?message=Song+succesfully+uploaded"; 
+		
+		
 		response.sendRedirect(path);	
 	}
 	

@@ -57,8 +57,7 @@ public class EditPlaylistServlet extends HttpServlet {
 		}
 		
 		if(error != null) {
-			session.setAttribute("generalError", error);
-			String path = servletContext.getContextPath() + "/Home";
+			String path = servletContext.getContextPath() + "/Home?generalError=" + error.replaceAll(" ", "+");
 			response.sendRedirect(path);
 			return;
 		}
@@ -87,8 +86,7 @@ public class EditPlaylistServlet extends HttpServlet {
 		
 		//if an error occurred, the playlist page will be reloaded
 		if(playlistError != null) {
-			session.setAttribute("playlistError", playlistError);
-			String path = servletContext.getContextPath() + "/ForwardPlaylist?playlistName=" + playlistName;
+			String path = servletContext.getContextPath() + "/Playlist?playlistName=" + playlistName + "&playlistError=" + playlistError.replaceAll(" ", "+");
 			response.sendRedirect(path);
 			return;
 		}
@@ -102,12 +100,13 @@ public class EditPlaylistServlet extends HttpServlet {
 			playlistError = "Database error, try again";
 		}
 		
+		String path = servletContext.getContextPath() + "/Playlist?playlistName=" + playlistName;
 		if(playlistError != null) {
-			session.setAttribute("playlistError", playlistError);
+			path += "&playlistError=" + playlistError.replaceAll(" ", "+");
 		}
-		String path = servletContext.getContextPath() + "/ForwardPlaylist?playlistName=" + playlistName;
+		else path += "&message=Song+added+to+the+playlist";
+		
 		response.sendRedirect(path);
-		return;
 	}
 	
 	public void destroy() {

@@ -1,6 +1,7 @@
 package it.polimi.tiw.playlist.filters;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,10 +20,10 @@ public class PlaylistChecker implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-		String HomePath = req.getServletContext().getContextPath() + "/Home";
+		String HomePath = req.getServletContext().getContextPath() + "/Home?playlistListError=Playlist+not+found";
 
 		HttpSession s = req.getSession();
-		if (s.isNew() || s.getAttribute("playlistName") == null) {
+		if (s.isNew() || request.getParameter("playlistName") == null || request.getParameter("playlistName").isEmpty()) {
 			res.sendRedirect(HomePath);
 			return;
 		}
