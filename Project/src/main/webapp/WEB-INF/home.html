@@ -15,6 +15,13 @@
         <h2 style="text-align: center;">
             HOME
         </h2>
+        <div th:if="${generalError != null}" style="text-align: center; color: red;">
+            <p th:text="${generalEerror}">generalError</p>
+        </div>
+        <div th:if="${message != null}" style="text-align: center; color: green;">
+            <p th:text="${message}">message</p>
+        </div>
+        
         <div class="container">
             <div class="playlist">
                 <h2>

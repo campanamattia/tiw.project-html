@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-png" href="../IMAGES/icon.png">
+        <link rel="stylesheet" href="../CSS/playlist.css">
+        <title>THE PLAYLIST</title>
+    </head>
+    <body>
+        <h1 th:text="${#playlist.getTitle()}" style="text-align: center;">Title</h1>
+        <div th:if="${not #lists.isEmpty(songs)}" class="table">
+			<table>
+				<tbody>
+                    <tr th:each="song : ${songs}">
+                        <td>
+                            <img th:src="@{GetImage(image=${song.album.fileImage})}" src="../IMAGES/icon.png"
+                            <a th:href="@{Song(songId=${song.id})}">
+                            <span th:text="${song.title}" style="font-size: 40px;;">Title</span></a>
+                        </td>
+                    </tr>
+                </tbody>
+			</table>
+            <div class="button">
+                <div th:if="${previousButton}">
+                    <button type="button" th:onclick="@{Playlis(playlistName=${playlist.name} , lowerBound=(${lowerBound} - 5))}" >PREC</button>
+                </div>
+                <div th:if="${nextButton}">
+                    <button type="button" th:onclick="@{Playlis(playlistName=${playlist.name} , lowerBound=(${lowerBound} + 5))}" >NEXT</button>
+                </div>
+            </div>
+        </div>
+        <h3 th:text="${playlistError}" style="text-align: center; color: red;">errore</h3>
+        <h3 th:text="${message}" style="text-align: center; color: green;">message</h3>
+    </body>
+</html>

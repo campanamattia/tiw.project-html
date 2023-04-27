@@ -9,20 +9,27 @@
         <title>THE PLAYLIST</title>
     </head>
     <body>
-        <div class="container">
-            <img th:src="${album.fileImage}" alt="cover" src="../IMAGES/icon.png">
-            <div class="info">
-                <h1 th:text="${title}">Title</h1>
-                <h2 th:text="${album.singer}">Singer</h2>
-                <h3 th:text="${album.title}">Album</h3>
-                <p th:text="${genre}">Genre</p>
+        <h3 th:text="${songError}" style="text-align: center; color: red;">errore</h3>
+        <div>
+            <div class="container">
+                <img th:src="@{GetImage(fileImage=(${song.album.fileImage}))}" alt="cover" src="../IMAGES/icon.png">
+                <div class="info">
+                    <div>
+                        <h1 th:text="${song.title}">Title</h1>
+                    </div>
+                    <div>
+                        <h1 th:text="${song.album.singer}">Singer</h1>
+                        <h3 th:text="${song.album.title}">Album</h3>
+                        <p th:text="${song.genre}">Genre</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="player">
-            <audio controls>
-                <source th:src="${fileAudio}" th:type="${songType}">
-                Your browser does not support the audio element.
-              </audio>
+            <div class="player">
+                <audio controls>
+                    <source th:src="@GetAudio(fileAudio=(${song.fileAudio}))" th:type="${songType}">
+                    Your browser does not support the audio element.
+                  </audio>
+            </div>
         </div>
     </body>
 </html>
