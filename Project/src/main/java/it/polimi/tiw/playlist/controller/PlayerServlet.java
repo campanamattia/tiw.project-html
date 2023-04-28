@@ -19,8 +19,6 @@ public class PlayerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
 	private TemplateEngine templateEngine;
-	private String audioFolderPath;
-	private String imgFolderPath;
 	
 	public PlayerServlet() {
 		super();
@@ -28,8 +26,6 @@ public class PlayerServlet extends HttpServlet {
 	
 	public void init() throws ServletException{
 		ServletContext context = getServletContext();
-		imgFolderPath = context.getInitParameter("imgFolderPath");
-		audioFolderPath = context.getInitParameter("audioFolderPath");
 		try {
 			this.connection = ConnectionHandler.getConnection(context);
 			this.templateEngine = TemplateHandler.getTemplateEngine(context);

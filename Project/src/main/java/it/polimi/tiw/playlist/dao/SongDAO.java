@@ -449,5 +449,81 @@ private Connection con;
 		}
 		return result;
 	}
+	
+	//method that verifies whether an image file belongs to the given user or not
+	public boolean imgBelongTo(String fileImage , String userName) throws SQLException{
+		boolean result = false;
+		String query = "SELECT * FROM SONG JOIN ALBUM ON SONG.Album = ALBUM.Id WHERE ALBUM.FileImage = ? AND SONG.User = ?";
+		PreparedStatement pStatement = null;
+		ResultSet queryRes = null;
+		
+		try {
+			pStatement = con.prepareStatement(query);
+			pStatement.setString(1, fileImage);
+			pStatement.setString(2, userName);
+			
+			queryRes = pStatement.executeQuery();
+			
+			if(queryRes.next()) {
+				result = true;
+			}
+		}catch(SQLException e) {
+			throw new SQLException();
+		}finally {
+			try {
+				if(queryRes != null) {
+					queryRes.close();
+				}
+			}catch(Exception e1) {
+				throw new SQLException(e1);
+			}
+			try {
+				if(pStatement != null) {
+					pStatement.close();
+				}
+			}catch(Exception e2) {
+				throw new SQLException(e2);
+			}
+		}	
+		return result;
+	}
+		
+	//method that verifies whether an audio file belongs to the given user or not
+	public boolean audioBelongTo(String fileAudio , String userName) throws SQLException{
+		boolean result = false;
+		String query = "SELECT * FROM SONG WHERE FileAudio = ? AND User = ?";
+		PreparedStatement pStatement = null;
+		ResultSet queryRes = null;
+		
+		try {
+			pStatement = con.prepareStatement(query);
+			pStatement.setString(1, fileAudio);
+			pStatement.setString(2, userName);
+			
+			queryRes = pStatement.executeQuery();
+			
+			if(queryRes.next()) {
+				result = true;
+			}
+		}catch(SQLException e) {
+			throw new SQLException();
+		}finally {
+			try {
+				if(queryRes != null) {
+					queryRes.close();
+				}
+			}catch(Exception e1) {
+				throw new SQLException(e1);
+			}
+			try {
+				if(pStatement != null) {
+					pStatement.close();
+				}
+			}catch(Exception e2) {
+				throw new SQLException(e2);
+			}
+		}	
+		return result;
+	}
 
 }
