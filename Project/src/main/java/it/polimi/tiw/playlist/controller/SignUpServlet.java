@@ -47,15 +47,18 @@ public class SignUpServlet extends HttpServlet{
 		
 		//checking the given parameters
 		if(userName == null || password == null || userName.isEmpty() || password.isEmpty()) error = "Missing parameters";
-		else {
-			try {
-				if(new UserDAO(this.connection).registration(userName, password)) {
-					HttpSession session = request.getSession(true);
-					if(session.isNew()) session.setAttribute("user", userName);
+		if(error == null) {
+			if(userName.contains(" ")) error = "Spaces are not allowed in the userName";
+			else {
+				try {
+					if(new UserDAO(this.connection).registration(userName, password)) {
+						HttpSession session = request.getSession(true);
+						if(session.isNew()) session.setAttribute("user", userName);
+					}
+					else error = "UserName already taken";
+				} catch (SQLException e) {
+					error = "Database error, try again";
 				}
-				else error = "UserName already taken";
-			} catch (SQLException e) {
-				error = "Database error, try again";
 			}
 		}
 		
