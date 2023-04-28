@@ -125,17 +125,6 @@ public class PlaylistServlet extends HttpServlet {
 			return;
 		}
 		
-		//setting the correct path for the images
-		for(Song s : songs) {
-			s.getAlbum().setFileImage(this.imgFolderPath + userName + "_" + s.getAlbum().getFileImage());
-		}
-		
-		if(notInPlaylistSongs != null) {
-			for(Song s : notInPlaylistSongs) {
-				s.getAlbum().setFileImage(this.imgFolderPath + userName + "_" + s.getAlbum().getFileImage());
-			}
-		}
-		
 		//starting to prepare the presentation of the page
 		ctx.setVariable("playlistName", playlistName);
 		if(message != null) ctx.setVariable("message", message);

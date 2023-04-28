@@ -81,10 +81,6 @@ public class HomeServlet extends HttpServlet {
 			playlistError = "Database error: Unable to load your songs";
 		}
 		
-		for(Song s : songs) {
-			s.getAlbum().setFileImage(imgFolderPath + userName+ "_" + s.getAlbum().getFileImage());
-		}
-		
 		//taking errors coming from the selection of a playlist in the home page
 		if(request.getParameter("playlistListError") != null) {
 			String temp = request.getParameter("playlistListError");

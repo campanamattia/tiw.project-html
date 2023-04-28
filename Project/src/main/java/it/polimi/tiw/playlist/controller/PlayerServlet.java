@@ -89,10 +89,6 @@ public class PlayerServlet extends HttpServlet {
 			templateEngine.process("/WEB-INF/player.html", ctx, response.getWriter());
 			return;
 		}
-		
-		//setting the correct paths for the image and for the audio
-		song.getAlbum().setFileImage(this.imgFolderPath + userName + "_" + song.getAlbum().getFileImage());
-		song.setFileAudio(this.audioFolderPath + userName + "_" + song.getFileAudio());
 
 		//starting to prepare the presentation of the page
 		ctx.setVariable("song", song);
