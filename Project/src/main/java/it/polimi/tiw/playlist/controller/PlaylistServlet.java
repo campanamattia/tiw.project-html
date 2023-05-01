@@ -2,6 +2,7 @@ package it.polimi.tiw.playlist.controller;
 
 import java.io.*;
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import java.sql.*;
@@ -16,6 +17,7 @@ import it.polimi.tiw.playlist.utils.ConnectionHandler;
 import it.polimi.tiw.playlist.utils.TemplateHandler;
 import java.util.ArrayList;
 
+@WebServlet("/Playlist")
 public class PlaylistServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

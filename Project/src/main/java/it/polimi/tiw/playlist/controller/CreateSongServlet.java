@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import java.sql.*;
@@ -13,8 +14,7 @@ import java.util.Calendar;
 import it.polimi.tiw.playlist.dao.SongDAO;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
 
-
-
+@WebServlet("/CreateSong")
 public class CreateSongServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

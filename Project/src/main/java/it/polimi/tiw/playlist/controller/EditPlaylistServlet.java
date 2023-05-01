@@ -2,6 +2,7 @@ package it.polimi.tiw.playlist.controller;
 
 import java.io.*;
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import java.sql.*;
@@ -10,6 +11,7 @@ import it.polimi.tiw.playlist.dao.SongDAO;
 import it.polimi.tiw.playlist.dao.PlaylistDAO;
 import it.polimi.tiw.playlist.utils.ConnectionHandler;
 
+@WebServlet("/EditPlaylist")
 public class EditPlaylistServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
