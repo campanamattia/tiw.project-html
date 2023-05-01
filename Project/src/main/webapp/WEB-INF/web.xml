@@ -40,6 +40,15 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>SignOutServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.SignOutServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+		<servlet-name>SignOutServlet</servlet-name>
+		<url-pattern>/SignOut</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>HomeServlet</servlet-name>
 		<servlet-class>it.polimi.tiw.playlist.controller.HomeServlet</servlet-class>
  	</servlet>
@@ -64,15 +73,6 @@
 	<servlet-mapping>
 		<servlet-name>PlayerServlet</servlet-name>
 		<url-pattern>/Player</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>ForwardPlaylistServlet</servlet-name>
-		<servlet-class>it.polimi.tiw.playlist.controller.ForwardPlaylistServlet</servlet-class>
- 	</servlet>
-	<servlet-mapping>
-		<servlet-name>ForwardPlaylistServlet</servlet-name>
-		<url-pattern>/ForwardPlaylist</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -103,12 +103,21 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>ButtonsServlet</servlet-name>
-		<servlet-class>it.polimi.tiw.playlist.controller.ButtonsServlet</servlet-class>
+		<servlet-name>GetImageServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.GetImageServlet</servlet-class>
  	</servlet>
 	<servlet-mapping>
-		<servlet-name>ButtonsServlet</servlet-name>
-		<url-pattern>/Buttons</url-pattern>
+		<servlet-name>GetImageServlet</servlet-name>
+		<url-pattern>/GetImage/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GetSongServlet</servlet-name>
+		<servlet-class>it.polimi.tiw.playlist.controller.GetSongServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetSongServlet</servlet-name>
+		<url-pattern>/GetSong/*</url-pattern>
 	</servlet-mapping>
 	
 	<context-param>
