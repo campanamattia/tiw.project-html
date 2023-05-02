@@ -15,9 +15,12 @@
 				<tbody>
                     <tr th:each="song : ${songs}">
                         <td>
-                            <img th:src="@{GetImage(image=${song.album.fileImage})}" src="../IMAGES/icon.png"
+                            <img th:src="@{GetImage(image=${song.album.fileImage})}" src="../IMAGES/icon.png">
                             <a th:href="@{Song(songId=${song.id})}">
-                            <span th:text="${song.title}" style="font-size: 40px;;">Title</span></a>
+                                <span th:text="${song.title}" style="font-size: 40px;;">
+                                    Title
+                                </span>
+                            </a>
                         </td>
                     </tr>
                 </tbody>
@@ -33,5 +36,30 @@
         </div>
         <h3 th:text="${playlistError}" style="text-align: center; color: red;">errore</h3>
         <h3 th:text="${message}" style="text-align: center; color: green;">message</h3>
+        <h2>
+            <span th:text="MODIFYING: ${playlistName}">
+                MODIFYING: Playlist Name
+            </span>
+        </h2>
+        <form id="form" action="/EditPlaylist" method="post">
+            <button type="submit" name="playlistName" td:value="${playlistName}">
+                <span>
+                    UPDATE
+                </span>
+            </button>
+            <div class="vertical">
+                <div th:each="song, status: ${notInPlaylistSongs}">
+                    <input type="radio" th:name="${status.index}" id="${status.index}" value="${song.id}">
+                <label for="${status.index}" th:text="${song.title}">song title</label>
+                </div>
+            </div>
+        </form>
+        <form action="/Logout" method="post">
+            <div class="logout" style="position: fixed;
+            top: 10px;
+            right: 10px;">
+                <input type="submit" class="submit" value="Logout">
+            </div>
+        </form>
     </body>
 </html>

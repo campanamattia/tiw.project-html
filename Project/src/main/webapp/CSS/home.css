@@ -6,9 +6,19 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-body{
-    background: #404040;
-    color: #ecdddd;
+.error{
+    text-align: center;
+    color: red;
+}
+
+.message{
+    text-align: center;
+    color: green;
+}
+.logout {
+    position: fixed;
+    top: 10px;
+    right: 10px;
 }
 
 .title{
@@ -38,41 +48,10 @@ body{
     overflow-y: auto
 }
 
-
-.input-new-playlist{
-    color: #404040;
-    background-color: #ccb4db;
-    border-radius: 5rem;
+.addsong{
+    line-height: 2;
 }
 
-.input-add-song{
-    min-width: max-content;
-    color: #404040;
-    background-color: #ccb4db;
-    border-radius: 5rem;
-    text-align: left;
+.subtitle{
+    text-align: center;
 }
-
-.submit{
-    width: auto;
-    font-size: 15px;
-    font-weight: 500;
-    border: none;
-    border-radius: 10px;
-    background: #fce68a;
-    color: #404040;
-    align-items: center;
-    box-shadow: 0 4px 20px rgba(62, 9, 9, 0.145);
-    cursor: pointer;
-    transition: .5s;
-}
-.submit:hover{
-    background: #fce68a;
-    box-shadow: 0 4px 20px rgba(62, 9, 9, 0.320);
-}
-
-.logout {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-  }

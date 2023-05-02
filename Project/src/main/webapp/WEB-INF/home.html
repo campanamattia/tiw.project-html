@@ -24,26 +24,28 @@
         
         <div class="container">
             <div class="playlist">
-                <h2>
+                <h2 class="subtitle">
                     Your Playlist
                 </h2>
+                <p th:text="${playlistListError}" class="error">playlistList error</p>
                 <div class="vertical">
-                    <p th:text="${playlistListError}" th:style="color: red;" style="color:red">playlistList error</p>
-                    <div th:class="playlistTable" th:if="${not #lists.isEmpty(playlists)}">
-                        <form action="/Home" method="post" th:each="p: ${plalists}">
-                            <button type="submit" name="playlistName" th:value="${p.name}">
-                                <span th:text="${p.name}">Playlist Name&emsp;</span>
-                                <span th:text="${#dates.format(p.date , 'dd.MM.yyyy')}">dd.MM.yyyy</span>
-                            </button>
-                        </form>    
-                    </div>
+                    <table>
+                        <tbody>
+                            <tr th:each="playtlist : ${playlists}">
+                                <td><a th:href="@{/Playlist(playlistName=${playlist.name})}">
+                                    <span th:text="${playlist.name}">Playlist name</span></a>
+                                </td>
+                                <td><span th:text="${#dates.format(playlist.creationDate , 'dd.MM.yyyy')}">dd.MM.yyy</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="input-new-playlist">
-                <h3>
+            <div>
+                <h2 class="subtitle">
                     Create new Playlist
-                </h3>
-                <p th:text="${playlistError}" th:style="color: red" style="color:red">playlist error</p>
+                </h2>
+                <p th:text="${playlistError}" th:style="color: red" class="error">playlist error</p>
                 <form action="/CreatePlaylist" method="post">
                     <label for="playlistName">Playlist Name</label>
                     <input type="text" name="playlistName" id="playlistName" required>
@@ -55,7 +57,7 @@
                 </form>
             </div>
         </div>
-        <div class="input-add-song" style="line-height: 2;">
+        <div class="addsong">
             <h3></h3>
             <h3>Add Song</h3>
             <p th:text="${songError}" th:style="color: red" style="color:red">song error</p>
@@ -88,12 +90,12 @@
                 <label for="year">Release Year</label>
                 <input type="number" name="year" id="year" required>
                 <br>
-                <input type="submit" class="submit" value="Create">
+                <input type="submit" value="Create">
             </form>
         </div>
         <form action="/Logout" method="post">
             <div class="logout">
-                <input type="submit" class="submit" value="Logout">
+                <input type="submit" value="Logout">
             </div>
         </form>
     </body>
