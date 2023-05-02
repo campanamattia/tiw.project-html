@@ -47,9 +47,6 @@ public class HomeServlet extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String userName = (String)session.getAttribute("user");
 		
-		String error = request.getParameter("error");
-		String message = request.getParameter("message");
-		
 		//taking from the database all the playlists of the user
 		String playlistListError = null;
 		ArrayList<Playlist> playlists = null;
