@@ -17,7 +17,7 @@
 						<small>We are happy to have you back.</small>
 					</div>
 					<div class="input-group">
-						<form action="/SingIn" method="post">
+						<form action="/SignIn" method="post">
 						<div class="input-field">
 							<input type="text" class="input-box" id="userName" required>
 							<label for="userName">Username</label>
@@ -25,7 +25,7 @@
 						<div class="input-field">
 							<input type="password" class="input-box" id="password" required>
 							<label for="password">Password</label>
-							<p th:class="error" th:text="${error}"></p>
+							<p th:class="error" th:text="${error}">error</p>
 						</div>
 						<div class="input-field">
 							<input type="submit" class="input-submit" value="Sign In">
