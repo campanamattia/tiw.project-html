@@ -111,7 +111,7 @@ public class HomeServlet extends HttpServlet {
 			ctx.setVariable("message", request.getParameter("message").replaceAll("+", " "));
 		}
 		
-		templateEngine.process("/WEB-INF/home.html", ctx, response.getWriter());
+		templateEngine.process("WEB-INF/home.html", ctx, response.getWriter());
 	}
 	
 	public void destroy() {
