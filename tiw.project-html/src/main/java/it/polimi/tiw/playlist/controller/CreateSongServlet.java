@@ -45,15 +45,15 @@ public class CreateSongServlet extends HttpServlet {
 		ServletContext servletContext = getServletContext();
 		String userName = (String)session.getAttribute("user");
 		
-		String songTitle = (String)request.getParameter("songTitle");
-		String genre = (String)request.getParameter("genre");
-		String singer = (String)request.getParameter("singer");
-		String albumTitle = (String)request.getParameter("albumTitle");
-		String year = (String)request.getParameter("year");
+		String songTitle = request.getParameter("songTitle");
+		String genre = request.getParameter("genre");
+		String singer = request.getParameter("singer");
+		String albumTitle = request.getParameter("albumTitle");
+		String year = request.getParameter("year");
 		int publicationYear = -1;
 		
-		Part fileImage = (Part)request.getPart("fileImage");
-		Part fileAudio = (Part)request.getPart("fileAudio");
+		Part fileImage = request.getPart("fileImage");
+		Part fileAudio = request.getPart("fileAudio");
 		
 		String songError = null;
 		
