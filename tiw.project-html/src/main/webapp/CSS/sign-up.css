@@ -15,3 +15,10 @@
     text-align: center;
     color: green;
 }
+
+.container{
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: center;
+}
+
