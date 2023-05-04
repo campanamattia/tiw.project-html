@@ -50,8 +50,7 @@ public class SignInServlet extends HttpServlet {
 		else {
 			try {
 				if(new UserDAO(this.connection).authentication(userName, password)) {
-					HttpSession session = request.getSession(true);
-					session.setAttribute("user", userName);
+					request.getSession(true).setAttribute("user", userName);
 				} else {
 					error = "Wrong UserName or Password";
 				}
@@ -63,7 +62,7 @@ public class SignInServlet extends HttpServlet {
 		//if an error occurred, the page will be reloaded 
 		if(error != null) {
 			ctx.setVariable("error", error);
-			templateEngine.process("/sign-in.html", ctx, response.getWriter());
+			templateEngine.process("sign-in.html", ctx, response.getWriter());
 			return;
 		}
 			

@@ -47,13 +47,14 @@ public class SignUpServlet extends HttpServlet{
 		
 		//checking the given parameters
 		if(userName == null || password == null || userName.isEmpty() || password.isEmpty()) error = "Missing parameters";
+		if(error == null && userName.length() > 50) error = "Username is too long";
+		if(error == null && password.length() > 50) error = "Password is too long";
 		if(error == null) {
 			if(userName.contains(" ")) error = "Spaces are not allowed in the userName";
 			else {
 				try {
 					if(new UserDAO(this.connection).registration(userName, password)) {
-						HttpSession session = request.getSession(true);
-						if(session.isNew()) session.setAttribute("user", userName);
+						request.getSession(true).setAttribute("user", userName);
 					}
 					else error = "UserName already taken";
 				} catch (SQLException e) {
@@ -65,7 +66,7 @@ public class SignUpServlet extends HttpServlet{
 		//if an error occurred, the page will be reloaded
 		if(error != null) {
 			ctx.setVariable("error", error);
-			templateEngine.process("/WEB-INF/sign-up.html", ctx, response.getWriter());
+			templateEngine.process("sign-up.html", ctx, response.getWriter());
 			return;
 		} 
 		
