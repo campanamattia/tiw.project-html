@@ -19,7 +19,7 @@ public class SignOutServlet extends HttpServlet {
 		request.getSession(true).invalidate();;
 		
 		//Redirect to the sign in page
-		String path = getServletContext().getContextPath() +  "/SignIn";
+		String path = getServletContext().getContextPath();
 		response.sendRedirect(path);
 
 	}

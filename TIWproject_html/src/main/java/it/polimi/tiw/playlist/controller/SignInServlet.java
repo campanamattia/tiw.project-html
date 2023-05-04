@@ -37,13 +37,6 @@ public class SignInServlet extends HttpServlet {
 		}
 	}
 	
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		
-		templateEngine.process("sign-in.html", ctx, response.getWriter());
-	}
-	
 	//method that checks the user credentials
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		ServletContext servletContext = getServletContext();
