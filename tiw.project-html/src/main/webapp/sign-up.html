@@ -19,11 +19,11 @@
                     <div class="input-group">
                         <form action="SignUp" method="post">
                             <div class="input-field">
-                                <input type="text" class="input-box" id="userName" required>
+                                <input type="text" class="input-box" id="userName" name="userName" required>
                                 <label for="userName">UserName</label>
                             </div>
                             <div class="input-field">
-                                <input type="password" class="input-box" id="password" required>
+                                <input type="password" class="input-box" id="password" name="password" required>
                                 <label for="password">Password</label>
                                 <p th:class="error" th:text="${errorMsg}"></p>
                             </div>
