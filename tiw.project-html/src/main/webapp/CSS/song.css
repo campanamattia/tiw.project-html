@@ -6,7 +6,11 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-
+.signout {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
 img{
     height: 100px;
     width: 100px;
