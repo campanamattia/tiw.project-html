@@ -51,7 +51,7 @@ public class PlayerServlet extends HttpServlet {
 			songId = Integer.parseInt(request.getParameter("SongId"));
 		}
 		catch(NumberFormatException e) {
-			String path = servletContext.getContextPath() + "/Home?generalError=Song+not+found";
+			String path = servletContext.getContextPath() + "/Home?generalError=Song not found";
 			response.sendRedirect(path);
 			return;
 		}
@@ -68,7 +68,7 @@ public class PlayerServlet extends HttpServlet {
 		
 		//if an error occurred, the user will be redirected to the home page
 		if(generalError != null) {
-			String path = servletContext.getContextPath() + "/Home?generalError=" + generalError.replaceAll(" ", "+");
+			String path = servletContext.getContextPath() + "/Home?generalError=" + generalError;
 			response.sendRedirect(path);
 			return;
 		}

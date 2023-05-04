@@ -1,6 +1,8 @@
 package it.polimi.tiw.playlist.controller;
 
 import java.io.*;
+import java.net.URLDecoder;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -50,8 +52,8 @@ public class PlaylistServlet extends HttpServlet {
 		
 		//taking attributes
 		String playlistName = request.getParameter("playlistName"); //its existence is checked by the filter
-		String message = request.getParameter("message") != null ? request.getParameter("message").replaceAll("+", " ") : null;
-		String playlistError = request.getParameter("playlistError") != null ? request.getParameter("playlistError").replaceAll("+", " ") : "";
+		String message = request.getParameter("message") != null ? URLDecoder.decode(request.getParameter("message"), "UTF-8") : null;
+		String playlistError = request.getParameter("playlistError") != null ? URLDecoder.decode(request.getParameter("playlistError"), "UTF-8") : "";
 		int lowerBound = -1;
 		try {
 			lowerBound = request.getParameter("lowerBound") != null ? Integer.parseInt(request.getParameter("lowerBound")) : 0;
@@ -63,21 +65,18 @@ public class PlaylistServlet extends HttpServlet {
 		//checking the playlist name
 		try {
 			if( !(playlistDAO.belongTo(playlistName, userName)) ) {
-				String path = servletContext.getContextPath() + "/Home?generalError=Playlist+not+found";
+				String path = servletContext.getContextPath() + "/Home?generalError=Playlist not found";
 				response.sendRedirect(path);
 				return;
 			}
 		} catch (SQLException | IOException e1) {
-			String path = servletContext.getContextPath() + "/Home?generalError=Database+error,+try+again";
+			String path = servletContext.getContextPath() + "/Home?generalError=Database error, try again";
 			response.sendRedirect(path);
 			return;
 		}
 		
-		//checking the lower bound
-		if(lowerBound%5 != 0) {
-			if(lowerBound%5 <= 2) lowerBound -= lowerBound%5;
-			else lowerBound += 5-lowerBound%5;
-		}
+		//fixing the lower bound
+		lowerBound -= lowerBound%5;
 		
 		//taking all the user's songs that are not in the playlist
 		ArrayList<Song> notInPlaylistSongs = null;
@@ -102,7 +101,7 @@ public class PlaylistServlet extends HttpServlet {
 		
 		//if an error occurred, the user will be redirected to the home page
 		if(error != null) {
-			String path = servletContext.getContextPath() + "/Home?generalError=" + error.replaceAll(" ", "+");
+			String path = servletContext.getContextPath() + "/Home?generalError=" + error;
 			response.sendRedirect(path);
 			return;
 		}
@@ -120,7 +119,7 @@ public class PlaylistServlet extends HttpServlet {
 		
 		//if songs is empty the user is trying to load a section of the playlist in which there are no songs
 		if(songs.isEmpty()) {
-			String path = servletContext.getContextPath() + "/Home?generalError=" + error.replaceAll(" ", "+");
+			String path = servletContext.getContextPath() + "/Home?generalError=" + error;
 			response.sendRedirect(path);
 			return;
 		}

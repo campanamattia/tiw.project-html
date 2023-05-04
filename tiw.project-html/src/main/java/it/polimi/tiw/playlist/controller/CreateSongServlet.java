@@ -82,7 +82,7 @@ public class CreateSongServlet extends HttpServlet {
 		
 		//if an error occurred, the home page is reloaded
 		if(songError != null) {
-			String path = servletContext.getContextPath() + "/Home?songError=" + songError.replaceAll(" ", "+");
+			String path = servletContext.getContextPath() + "/Home?songError=" + songError;
 			response.sendRedirect(path);
 			return;
 		}
@@ -100,7 +100,7 @@ public class CreateSongServlet extends HttpServlet {
 		
 		//if an error occurred, the home is reloaded
 		if(songError != null) {
-			String path = servletContext.getContextPath() + "/Home?songError=" + songError.replaceAll(" ", "+");
+			String path = servletContext.getContextPath() + "/Home?songError=" + songError;
 			response.sendRedirect(path);
 			return;
 		}
@@ -118,7 +118,7 @@ public class CreateSongServlet extends HttpServlet {
 		
 		//if an error occurred, the home is reloaded
 		if(songError != null) {
-			String path = servletContext.getContextPath() + "/Home?songError=" + songError.replaceAll(" ", "+");
+			String path = servletContext.getContextPath() + "/Home?songError=" + songError;
 			response.sendRedirect(path);
 			return;
 		}
@@ -155,7 +155,7 @@ public class CreateSongServlet extends HttpServlet {
 		
 		//if an error occurred, the home is reloaded
 		if(songError != null) {
-			String path = servletContext.getContextPath() + "/Home?songError=" + songError.replaceAll(" ", "+");
+			String path = servletContext.getContextPath() + "/Home?songError=" + songError;
 			response.sendRedirect(path);
 			return;
 		}
@@ -180,9 +180,9 @@ public class CreateSongServlet extends HttpServlet {
 		
 		String path = servletContext.getContextPath() + "/Home";
 		if(songError != null) {
-			path += "?songError=" + songError.replaceAll(" ", "+");
+			path += "?songError=" + songError;
 		}
-		else path += "?message=Song+succesfully+uploaded"; 
+		else path += "?message=Song succesfully uploaded"; 
 		
 		
 		response.sendRedirect(path);	

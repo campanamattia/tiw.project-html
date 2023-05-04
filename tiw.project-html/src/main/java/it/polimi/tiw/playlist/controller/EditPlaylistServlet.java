@@ -59,7 +59,7 @@ public class EditPlaylistServlet extends HttpServlet {
 		}
 		
 		if(error != null) {
-			String path = servletContext.getContextPath() + "/Home?generalError=" + error.replaceAll(" ", "+");
+			String path = servletContext.getContextPath() + "/Home?generalError=" + error;
 			response.sendRedirect(path);
 			return;
 		}
@@ -88,7 +88,7 @@ public class EditPlaylistServlet extends HttpServlet {
 		
 		//if an error occurred, the playlist page will be reloaded
 		if(playlistError != null) {
-			String path = servletContext.getContextPath() + "/Playlist?playlistName=" + playlistName + "&playlistError=" + playlistError.replaceAll(" ", "+");
+			String path = servletContext.getContextPath() + "/Playlist?playlistName=" + playlistName + "&playlistError=" + playlistError;
 			response.sendRedirect(path);
 			return;
 		}
@@ -104,9 +104,9 @@ public class EditPlaylistServlet extends HttpServlet {
 		
 		String path = servletContext.getContextPath() + "/Playlist?playlistName=" + playlistName;
 		if(playlistError != null) {
-			path += "&playlistError=" + playlistError.replaceAll(" ", "+");
+			path += "&playlistError=" + playlistError;
 		}
-		else path += "&message=Song+added+to+the+playlist";
+		else path += "&message=Song added to the playlist";
 		
 		response.sendRedirect(path);
 	}

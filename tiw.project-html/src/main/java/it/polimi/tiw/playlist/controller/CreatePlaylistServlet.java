@@ -62,7 +62,7 @@ public class CreatePlaylistServlet extends HttpServlet {
 		
 		//if an error occurred, the home page will be reloaded
 		if(playlistError != null) {
-			String path = servletContext.getContextPath() + "/Home?=playlistError=" + playlistError.replaceAll(" ", "+");
+			String path = servletContext.getContextPath() + "/Home?=playlistError=" + playlistError;
 			response.sendRedirect(path);
 			return;
 		}
@@ -95,7 +95,7 @@ public class CreatePlaylistServlet extends HttpServlet {
 		}
 		
 		if(playlistError != null) {
-			String path = servletContext.getContextPath() + "/Home?playlistError=" + playlistError.replaceAll(" ", "+");
+			String path = servletContext.getContextPath() + "/Home?playlistError=" + playlistError;
 			response.sendRedirect(path);
 			return;
 		}
@@ -111,9 +111,9 @@ public class CreatePlaylistServlet extends HttpServlet {
 		
 		String path = servletContext.getContextPath() + "/Home";
 		if(playlistError != null) {
-			path += "?playlistError=" + playlistError.replaceAll(" ", "+");
+			path += "?playlistError=" + playlistError;
 		}
-		else path += "?message=Playlist+succesfully+created";
+		else path += "?message=Playlist succesfully created";
 		response.sendRedirect(path);
 	}
 	

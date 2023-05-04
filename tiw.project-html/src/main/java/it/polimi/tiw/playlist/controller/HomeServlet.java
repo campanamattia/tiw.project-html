@@ -1,6 +1,8 @@
 package it.polimi.tiw.playlist.controller;
 
 import java.io.*;
+import java.net.URLDecoder;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -81,7 +83,7 @@ public class HomeServlet extends HttpServlet {
 		//taking errors coming from the selection of a playlist in the home page
 		if(request.getParameter("playlistListError") != null) {
 			String temp = request.getParameter("playlistListError");
-			temp = temp.replaceAll("+"," ");
+			temp = URLDecoder.decode(temp, "UTF-8");
 			if(playlistListError == null) playlistListError = temp;
 			else playlistListError = temp + "\n" + playlistListError;
 		}
@@ -90,7 +92,7 @@ public class HomeServlet extends HttpServlet {
 		//taking the errors coming from the create playlist form in the home page
 		if(request.getParameter("playlistError") != null) {
 			String temp = request.getParameter("playlistError");
-			temp = temp.replaceAll("+"," ");
+			temp = URLDecoder.decode(temp, "UTF-8");
 			if(playlistError == null) playlistError = temp;
 			else playlistError = temp + "\n" + playlistError;
 		}
@@ -98,17 +100,17 @@ public class HomeServlet extends HttpServlet {
 		
 		//taking the errors coming from the create song form in the home page
 		if(request.getParameter("songError") != null) {
-			ctx.setVariable("songError", request.getParameter("songError").replaceAll("+", " "));
+			ctx.setVariable("songError", URLDecoder.decode(request.getParameter("songError"), "UTF-8"));
 		}
 		
 		//taking the errors
 		if(request.getParameter("generalError") != null) {
-			ctx.setVariable("generalError", request.getParameter("generalError").replaceAll("+", " "));
+			ctx.setVariable("generalError",URLDecoder.decode(request.getParameter("generalError"), "UTF-8"));
 		}
 		
 		//taking the messages 
 		if(request.getParameter("message") != null) {
-			ctx.setVariable("message", request.getParameter("message").replaceAll("+", " "));
+			ctx.setVariable("message", URLDecoder.decode(request.getParameter("message"), "UTF-8"));
 		}
 		
 		templateEngine.process("WEB-INF/home.html", ctx, response.getWriter());
