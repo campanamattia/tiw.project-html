@@ -61,7 +61,7 @@
             <h3></h3>
             <h3>Add Song</h3>
             <p th:text="${songError}" th:class="error">song error</p>
-            <form action="Song" method="post" enctype="multipart/form-data">
+            <form action="CreateSong" method="post" enctype="multipart/form-data">
                 <label for="songTitle">Song Title</label>
                 <input type="text" name="songTitle" id="songTitle" required>
                 <br>
