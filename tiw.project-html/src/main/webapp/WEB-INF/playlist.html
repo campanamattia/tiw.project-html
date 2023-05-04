@@ -9,15 +9,15 @@
         <title>THE PLAYLIST</title>
     </head>
     <body>
-        <h1 th:text="${#playlist.getTitle()}" style="text-align: center;">Title</h1>
-        <div th:if="${not #lists.isEmpty(songs)}" class="table">
+        <h1 th:text="${#playlist.getTitle()}" th:class="title" class="title">Title</h1>
+        <div th:if="${not #lists.isEmpty(songs)}" th:class="table" class="table">
 			<table>
 				<tbody>
                     <tr th:each="song : ${songs}">
                         <td>
                             <img th:src="@{GetImage(image=${song.album.fileImage})}" src="../IMAGES/icon.png">
                             <a th:href="@{Song(songId=${song.id})}">
-                                <span th:text="${song.title}" style="font-size: 40px;;">
+                                <span th:text="${song.title}" th:style="font-size: 40px;" style="font-size: 40px">
                                     Title
                                 </span>
                             </a>
@@ -34,15 +34,15 @@
                 </div>
             </div>
         </div>
-        <h3 th:text="${playlistError}" style="text-align: center; color: red;">errore</h3>
-        <h3 th:text="${message}" style="text-align: center; color: green;">message</h3>
+        <h3 th:text="${playlistError}" th:class="error" class="error">errore</h3>
+        <h3 th:text="${message}" th:class="message" class="message">message</h3>
         <h2>
             <span th:text="MODIFYING: ${playlistName}">
                 MODIFYING: Playlist Name
             </span>
         </h2>
-        <form id="form" action="/EditPlaylist" method="post">
-            <button type="submit" name="playlistName" td:value="${playlistName}">
+        <form id="form" action="EditPlaylist" method="post">
+            <button type="submit" name="playlistName" th:value="${playlistName}">
                 <span>
                     UPDATE
                 </span>
