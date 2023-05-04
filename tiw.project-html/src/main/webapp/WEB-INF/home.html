@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/x-png" href="../IMAGES/icon.png">
+        <link rel="icon" type="image/x-png" href="../images/icon.png">
         <link rel="stylesheet" href="../CSS/home.css">
         <title>THE PLAYLIST</title>
     </head>
@@ -15,7 +15,7 @@
         <h2 style="text-align: center;">
             HOME
         </h2>
-        <div th:if="${generalError != null}" style="text-align: center; color: red;">
+        <div th:if="${generalError != null}" th:class="error">
             <p th:text="${generalEerror}">generalError</p>
         </div>
         <div th:if="${message != null}" style="text-align: center; color: green;">
@@ -27,7 +27,7 @@
                 <h2 class="subtitle">
                     Your Playlist
                 </h2>
-                <p th:text="${playlistListError}" class="error">playlistList error</p>
+                <p th:text="${playlistListError}" th:class="error">playlistList error</p>
                 <div class="vertical">
                     <table>
                         <tbody>
@@ -45,8 +45,8 @@
                 <h2 class="subtitle">
                     Create new Playlist
                 </h2>
-                <p th:text="${playlistError}" th:style="color: red" class="error">playlist error</p>
-                <form action="/CreatePlaylist" method="post">
+                <p th:text="${playlistError}" th:class="error">playlist error</p>
+                <form action="CreatePlaylist" method="post">
                     <label for="playlistName">Playlist Name</label>
                     <input type="text" name="playlistName" id="playlistName" required>
                     <input type="submit" class="submit" name="editType" value="CREATE">
@@ -60,8 +60,8 @@
         <div class="addsong">
             <h3></h3>
             <h3>Add Song</h3>
-            <p th:text="${songError}" th:style="color: red" style="color:red">song error</p>
-            <form action="/Song" method="post" enctype="multipart/form-data">
+            <p th:text="${songError}" th:class="error">song error</p>
+            <form action="Song" method="post" enctype="multipart/form-data">
                 <label for="songTitle">Song Title</label>
                 <input type="text" name="songTitle" id="songTitle" required>
                 <br>
@@ -93,7 +93,7 @@
                 <input type="submit" value="Create">
             </form>
         </div>
-        <form action="/Logout" method="post">
+        <form action="Logout" method="post">
             <div class="logout">
                 <input type="submit" value="Logout">
             </div>
