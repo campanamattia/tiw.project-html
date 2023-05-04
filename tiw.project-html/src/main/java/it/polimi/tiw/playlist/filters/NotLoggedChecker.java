@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter( urlPatterns = {"/SignIn", "/SignUp", "/sign-in.html", "/sign-up.html","/"})
+@WebFilter( urlPatterns = {"/SignIn", "/SignUp", "/sign-in.html", "/sign-up.html",""})
 public class NotLoggedChecker implements Filter {
 	
 	//checks that the session is not active; in case it is not so, redirect to the Home page
