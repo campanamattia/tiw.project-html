@@ -4,13 +4,13 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/x-png" href="images/icon.png">
-        <link rel="stylesheet" href="CSS/playlist.css">
+        <link rel="icon" type="image/x-png" th:href="@{/images/icon.png}" href="../images/icon.png">
+        <link rel="stylesheet" th:href="@{/CSS/playlist.css}" href="../CSS/playlist.css">
         <title>THE PLAYLIST</title>
     </head>
     <body>
         <h1 th:text="${#playlist.getTitle()}" th:class="title" class="title">Title</h1>
-        <div th:if="${not #lists.isEmpty(songs)}" th:class="table" class="table">
+        <div th:if="${not #lists.isEmpty(songs)}" class="table">
 			<table>
 				<tbody>
                     <tr th:each="song : ${songs}">

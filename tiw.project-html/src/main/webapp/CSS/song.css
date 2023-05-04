@@ -6,11 +6,21 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+.error{
+    text-align: center;
+    color: red;
+}
+
+.message{
+    text-align: center;
+    color: green;
+}
 .signout {
     position: fixed;
     top: 10px;
     right: 10px;
 }
+
 img{
     height: 100px;
     width: 100px;

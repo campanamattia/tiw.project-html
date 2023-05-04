@@ -4,12 +4,12 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/x-png" href="images/icon.png">
-        <link rel="stylesheet" href="CSS/song.css">
+        <link rel="icon" type="image/x-png" th:href="@{/images/icon.png}" href="../images/icon.png">
+        <link rel="stylesheet" th:href="@{/CSS/song.css}" href="../CSS/song.css">
         <title>THE PLAYLIST</title>
     </head>
     <body>
-        <h3 th:text="${songError}" style="text-align: center; color: red;">errore</h3>
+        <h3 th:text="${songError}" th:class="error" class="error">errore</h3>
         <div>
             <div class="container">
                 <img th:src="@{GetImage(fileImage=(${song.album.fileImage}))}" alt="cover" src="../IMAGES/icon.png">
