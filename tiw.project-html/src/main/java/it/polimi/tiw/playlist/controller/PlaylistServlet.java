@@ -137,7 +137,7 @@ public class PlaylistServlet extends HttpServlet {
 		if(lowerBound + 5 < allSongs.size()) ctx.setVariable("nextButton", 1);
 		else ctx.setVariable("nextButton", 0);
 		
-		templateEngine.process("/WEB-INF/playlist.html", ctx, response.getWriter());	
+		templateEngine.process("WEB-INF/playlist.html", ctx, response.getWriter());	
 	}
 		
 	public void destroy() {

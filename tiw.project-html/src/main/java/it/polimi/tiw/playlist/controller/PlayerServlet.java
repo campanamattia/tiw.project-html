@@ -84,14 +84,14 @@ public class PlayerServlet extends HttpServlet {
 		
 		if(songError != null) {
 			ctx.setVariable("songError", songError);
-			templateEngine.process("/WEB-INF/player.html", ctx, response.getWriter());
+			templateEngine.process("WEB-INF/player.html", ctx, response.getWriter());
 			return;
 		}
 
 		//starting to prepare the presentation of the page
 		ctx.setVariable("song", song);
 		
-		templateEngine.process("/WEB-INF/player.html", ctx, response.getWriter());	
+		templateEngine.process("WEB-INF/player.html", ctx, response.getWriter());	
 	}
 	
 	public void destroy() {
