@@ -14,9 +14,9 @@ public class UserDAO {
 	}
 	
 	// method that verifies if the given userName is already taken
-	public boolean taken(String userName) throws SQLException {
+	private boolean taken(String userName) throws SQLException {
 		boolean result = false;
-		String query = "SELECT UserName FROM USER WHERE UserName = ?";
+		String query = "SELECT * FROM USER WHERE UserName = ?";
 		ResultSet queryRes = null;
 		PreparedStatement pStatement = null;
 		
