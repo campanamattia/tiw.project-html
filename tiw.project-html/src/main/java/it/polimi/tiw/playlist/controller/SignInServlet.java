@@ -51,7 +51,7 @@ public class SignInServlet extends HttpServlet {
 			try {
 				if(new UserDAO(this.connection).authentication(userName, password)) {
 					HttpSession session = request.getSession(true);
-					if(session.isNew()) session.setAttribute("user", userName);
+					session.setAttribute("user", userName);
 				} else {
 					error = "Wrong UserName or Password";
 				}
