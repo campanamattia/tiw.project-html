@@ -20,7 +20,7 @@ private Connection con;
 	//methods that returns the Id of the searched album
 	private int findAlbumId(String albumTitle , String image , String singer , int publicationYear)throws SQLException {
 		int result = 0;
-		String query = "SELECT Id FROM SONG WHERE Title = ? AND FileImage = ? AND Singer = ? AND PublicationYear = ?";
+		String query = "SELECT Id FROM ALBUM WHERE Title = ? AND FileImage = ? AND Singer = ? AND PublicationYear = ?";
 		PreparedStatement pStatement = null;
 		ResultSet queryRes = null;
 		
@@ -59,7 +59,7 @@ private Connection con;
 	//method that creates a new album (if it not exists yet) and returns its Id
 	private int addAlbum(String albumTitle , String image , String singer , int publicationYear) throws SQLException{
 		int result = 0;		
-		String query = "INSERT into ALBUM (Title , Image , Singer , PublicationYear) VALUES (? , ? , ? , ?)";
+		String query = "INSERT into ALBUM (Title , FileImage , Singer , PublicationYear) VALUES (? , ? , ? , ?)";
 		PreparedStatement pStatement = null;
 		
 		try {
