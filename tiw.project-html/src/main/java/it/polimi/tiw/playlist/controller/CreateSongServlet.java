@@ -95,7 +95,7 @@ public class CreateSongServlet extends HttpServlet {
 		else {
 			if(!fileImage.getContentType().startsWith("image")) songError = "The image file is not valid;";
 			else {
-				if(fileImage.getSize() > 1000000) songError = "Image file size is too big;"; //1 000 000 bytes = 1MB
+				if(fileImage.getSize() > 5000000) songError = "Image file size is too big;"; //5 000 000 bytes = 5MB
 				else if(fileImageName.length() > 50) songError = "Image file name is too long";
 			}
 		}
@@ -113,7 +113,7 @@ public class CreateSongServlet extends HttpServlet {
 		else {
 			if(!fileAudio.getContentType().startsWith("audio")) songError = "The audio file is not valid;";
 			else {
-				if(fileAudio.getSize() > 1000000) songError = "Audio file size is too big;"; //1 000 000 bytes = 1MB
+				if(fileAudio.getSize() > 5000000) songError = "Audio file size is too big;"; //5 000 000 bytes = 5MB
 				else if(fileAudioName.length() > 50) songError = "Audio file name is too long";	
 			}
 		}
