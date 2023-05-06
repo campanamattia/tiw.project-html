@@ -186,7 +186,7 @@ private Connection con;
 	//method that returns the necessary attributes for the presentation of the playlist 
 	public ArrayList<Song> getSongTitleAndImg(String playlistName, String userName) throws SQLException{
 		ArrayList<Song> result = new ArrayList<Song>();
-		String query = "SELECT SONG.Id, SONG.Title, SONG.FileImage "
+		String query = "SELECT SONG.Id, SONG.Title, ALBUM.FileImage "
 				+ "FROM CONTAINS JOIN SONG ON CONTAINS.Song = SONG.Id JOIN ALBUM ON SONG.Album = ALBUM.Id "
 				+ "WHERE CONTAINS.PlaylistName = ? AND CONTAINS.PlaylistUser = ? ORDER BY ALBUM.PublicationYear DESC";
 		PreparedStatement pStatement = null;
@@ -208,7 +208,7 @@ private Connection con;
 				//Read the image from the data base
 				song.setId(queryRes.getInt("SONG.Id"));
 				song.setTitle(queryRes.getString("SONG.Title"));
-				album.setFileImage(queryRes.getString("SONG.FileImage"));
+				album.setFileImage(queryRes.getString("ALBUM.FileImage"));
 				song.setAlbum(album);
 				result.add(song);
 			}
