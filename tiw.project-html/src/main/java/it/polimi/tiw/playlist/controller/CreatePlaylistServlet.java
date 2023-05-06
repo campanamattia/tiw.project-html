@@ -42,7 +42,6 @@ public class CreatePlaylistServlet extends HttpServlet {
 		String playlistError = null;
 		
 		String playlistName = request.getParameter("playlistName");
-		System.out.print(playlistName);
 		
 		//checking whether the given playlist name is valid or not
 		if(playlistName == null || playlistName.isEmpty()) {

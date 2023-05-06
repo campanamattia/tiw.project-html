@@ -188,7 +188,7 @@ private Connection con;
 		ArrayList<Song> result = new ArrayList<Song>();
 		String query = "SELECT SONG.Id, SONG.Title, SONG.FileImage "
 				+ "FROM CONTAINS JOIN SONG ON CONTAINS.Song = SONG.Id JOIN ALBUM ON SONG.Album = ALBUM.Id "
-				+ "WHERE CONTAINS.PlaylistNAME = ? AND CONTAINS.PlaylistUser = ? ORDER BY ALBUM.PublicationYear DESC";
+				+ "WHERE CONTAINS.PlaylistName = ? AND CONTAINS.PlaylistUser = ? ORDER BY ALBUM.PublicationYear DESC";
 		PreparedStatement pStatement = null;
 		ResultSet queryRes = null;
 		
