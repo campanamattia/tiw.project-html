@@ -42,6 +42,7 @@ public class CreatePlaylistServlet extends HttpServlet {
 		String playlistError = null;
 		
 		String playlistName = request.getParameter("playlistName");
+		System.out.print(playlistName);
 		
 		//checking whether the given playlist name is valid or not
 		if(playlistName == null || playlistName.isEmpty()) {
@@ -101,7 +102,7 @@ public class CreatePlaylistServlet extends HttpServlet {
 		}
 		
 		try {
-			if(!playlistDAO.addPlaylistWithSongs(playlistName, userName, new Date(System.currentTimeMillis()), (Integer[])songsToAdd.toArray())) {
+			if(!playlistDAO.addPlaylistWithSongs(playlistName, userName, new Date(System.currentTimeMillis()), songsToAdd.toArray(new Integer[songsToAdd.size()]))) {
 				playlistError = "Database error: unable to upload your playlist";
 			}
 		} catch(SQLException e) {

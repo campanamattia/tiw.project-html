@@ -51,8 +51,8 @@
                     <input type="text" name="playlistName" id="playlistName" required>
                     <input type="submit" class="submit" name="editType" value="CREATE">
                     <div class="vertical" th:each="song, status: ${songs}">
-                        <input type="checkbox" th:name="'song'+${status.index}" id="'song'+${status.index}" value="${song.id}" required>
-                        <label for="'song'+${status.index}" th:text="${song.title}">song title</label>
+                        <input type="checkbox" th:name="'song'+${status.index}" th:id="'song'+${status.index}" th:value="${song.id}" required>
+                        <label th:for="'song'+${status.index}" th:text="${song.title}">song title</label>
                     </div>
                 </form>
             </div>
