@@ -48,7 +48,7 @@ public class PlayerServlet extends HttpServlet {
 		//taking songId attribute
 		Integer songId = -1;
 		try{
-			songId = Integer.parseInt(request.getParameter("SongId"));
+			songId = Integer.parseInt(request.getParameter("songId"));
 		}
 		catch(NumberFormatException e) {
 			String path = servletContext.getContextPath() + "/Home?generalError=Song not found";
