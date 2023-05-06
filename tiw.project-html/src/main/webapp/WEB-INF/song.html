@@ -9,10 +9,10 @@
         <title>THE PLAYLIST</title>
     </head>
     <body>
-        <h3 th:text="${songError}" th:class="error" class="error">errore</h3>
+        <h3 th:text="${songError}" class="error">errore</h3>
         <div>
             <div class="container">
-                <img th:src="@{GetImage(fileImage=(${song.album.fileImage}))}" alt="cover" src="../IMAGES/icon.png">
+                <img th:src="@{GetImage/{image}(fileImage=(${song.album.fileImage}))}" alt="cover" src="../images/icon.png">
                 <div class="info">
                     <div>
                         <h1 th:text="${song.title}">Title</h1>
@@ -26,7 +26,7 @@
             </div>
             <div class="player">
                 <audio controls>
-                    <source th:src="@GetAudio(fileAudio=(${song.fileAudio}))" th:type="${songType}">
+                    <source th:src="@{GetSong/{song}(fileAudio=(${song.fileAudio}))}" th:type="${songType}">
                     Your browser does not support the audio element.
                   </audio>
             </div>
