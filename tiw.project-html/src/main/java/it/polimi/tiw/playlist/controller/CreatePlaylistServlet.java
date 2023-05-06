@@ -52,7 +52,7 @@ public class CreatePlaylistServlet extends HttpServlet {
 		}
 		if(playlistError == null){
 			try {
-				if(new PlaylistDAO(this.connection).taken(playlistName, userName)) {
+				if(playlistDAO.taken(playlistName, userName)) {
 					playlistError = playlistName + " playlist already exist";
 				}
 			} catch (SQLException e) {
