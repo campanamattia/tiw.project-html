@@ -22,7 +22,7 @@ public class PlayerChecker implements Filter {
 		String HomePath = req.getServletContext().getContextPath() + "/Home?generalError=Song+not+found";
 
 		HttpSession s = req.getSession();
-		if (s.isNew() || request.getParameter("SongId") == null || request.getParameter("SongId").isEmpty()) {
+		if (s.isNew() || request.getParameter("songId") == null || request.getParameter("songId").isEmpty()) {
 			res.sendRedirect(HomePath);
 			return;
 		}
