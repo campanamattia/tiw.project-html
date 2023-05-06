@@ -9,14 +9,14 @@
         <title>THE PLAYLIST</title>
     </head>
     <body>
-        <h1 th:text="${#playlist.getTitle()}" th:class="title" class="title">Title</h1>
+        <h1 th:text="${playlistName}" th:class="title" class="title">Title</h1>
         <div th:if="${not #lists.isEmpty(songs)}" class="table">
 			<table>
 				<tbody>
                     <tr th:each="song : ${songs}">
                         <td>
-                            <img th:src="@{GetImage(image=${song.album.fileImage})}" src="../IMAGES/icon.png">
-                            <a th:href="@{Song(songId=${song.id})}">
+                            <img th:src="@{GetImage/{image}(image=${song.album.fileImage})}" src="../images/icon.png">
+                            <a th:href="@{Player(songId=${song.id})}">
                                 <span th:text="${song.title}" th:style="font-size: 40px;" style="font-size: 40px">
                                     Title
                                 </span>
