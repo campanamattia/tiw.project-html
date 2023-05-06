@@ -236,7 +236,7 @@ private Connection con;
 	//method that returns the songs of the given user that are not in the given playlist
 	public ArrayList<Song> getSongsNotInPlaylist(String playlistName ,String userName) throws SQLException{
 		ArrayList<Song> result = new ArrayList<Song>();
-		String query = "SELECT SONG.Id, SONG.Title, ALBUM.FileImage, ALBUM.Singer "
+		String query = "SELECT SONG.Id, SONG.Title "
 				+ "FROM SONG JOIN ALBUM ON SONG.Album = ALBUM.Id WHERE SONG.User = ? AND SONG.Id NOT IN ("
 				+ "SELECT Song FROM CONTAINS WHERE PlaylistName = ? AND PlaylistUser = ?) ORDER BY ALBUM.PublicationYear DESC";
 		ResultSet queryRes = null;
@@ -251,15 +251,10 @@ private Connection con;
 			queryRes = pStatement.executeQuery();
 			
 			Song song;
-			Album album;
 			while(queryRes.next()) {
 				song = new Song();
-				album = new Album();
 				song.setId(queryRes.getInt("SONG.Id"));
 				song.setTitle(queryRes.getString("SONG.Title"));
-				album.setFileImage(queryRes.getString("ALBUM.FileImage"));
-				album.setSinger(queryRes.getString("ALBUM.Singer"));
-				song.setAlbum(album);
 				result.add(song);
 			}
 		}catch(SQLException e) {
@@ -286,7 +281,7 @@ private Connection con;
 	//method that returns all the songs of the given user
 	public ArrayList<Song> getSongsbyUser(String userName) throws SQLException{
 		ArrayList<Song> result = new ArrayList<Song>();
-		String query = "SELECT SONG.Id, SONG.Title, ALBUM.FileImage, ALBUM.Singer "
+		String query = "SELECT SONG.Id, SONG.Title "
 				+ "FROM SONG JOIN ALBUM ON SONG.Album = ALBUM.Id WHERE SONG.User = ? ORDER BY ALBUM.PublicationYear DESC";
 		ResultSet queryRes = null;
 		PreparedStatement pStatement = null;
@@ -298,15 +293,10 @@ private Connection con;
 			queryRes = pStatement.executeQuery();
 			
 			Song song;
-			Album album;
 			while(queryRes.next()) {
 				song = new Song();
-				album = new Album();
 				song.setId(queryRes.getInt("SONG.Id"));
 				song.setTitle(queryRes.getString("SONG.Title"));
-				album.setFileImage(queryRes.getString("ALBUM.FileImage"));
-				album.setSinger(queryRes.getString("ALBUM.Singer"));
-				song.setAlbum(album);
 				result.add(song);
 			}
 		}catch(SQLException e) {
@@ -333,8 +323,7 @@ private Connection con;
 	//method that returns the necessary attributes in order to reproduce the song
 	public Song playSong(int songId) throws SQLException{
 		Song result = null;
-		String query = "SELECT SONG.Id, SONG.Title, SONG.FileAudio, ALBUM.FileImage, ALBUM.Singer "
-				+ "FROM SONG JOIN ALBUM on SONG.Album = ALBUM.Id WHERE SONG.Id = ?";
+		String query = "SELECT * FROM SONG JOIN ALBUM on SONG.Album = ALBUM.Id WHERE SONG.Id = ?";
 		ResultSet queryRes = null;
 		PreparedStatement pStatement = null;
 		
@@ -349,9 +338,12 @@ private Connection con;
 				Album album = new Album();
 				result.setId(queryRes.getInt("SONG.Id"));
 				result.setTitle(queryRes.getString("SONG.Title"));
+				result.setGenre(queryRes.getString("SONG.Genre"));
 				result.setFileAudio(queryRes.getString("SONG.FileAudio"));
+				album.setTitle(queryRes.getString("ALBUM.Title"));
 				album.setFileImage(queryRes.getString("ALBUM.FileImage"));
 				album.setSinger(queryRes.getString("ALBUM.Singer"));
+				album.setYear(queryRes.getInt("ALBUM.PublicationYear"));
 				result.setAlbum(album);
 			}
 		}catch(SQLException e) {

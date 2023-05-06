@@ -12,21 +12,22 @@
         <h3 th:text="${songError}" class="error">errore</h3>
         <div>
             <div class="container">
-                <img th:src="@{GetImage/{image}(fileImage=(${song.album.fileImage}))}" alt="cover" src="../images/icon.png">
+                <img th:src="@{GetImage/{image}(image=(${song.album.fileImage}))}" alt="cover" src="../images/icon.png">
                 <div class="info">
                     <div>
                         <h1 th:text="${song.title}">Title</h1>
                     </div>
                     <div>
-                        <h1 th:text="${song.album.singer}">Singer</h1>
-                        <h3 th:text="${song.album.title}">Album</h3>
-                        <p th:text="${song.genre}">Genre</p>
+                        <h1 th:text="'Singer: '+${song.album.singer}">Singer</h1>
+                        <h3 th:text="'Album: '+${song.album.title}">Album</h3>
+                        <p th:text="'Publication year: '+${song.album.year}">Publication year</p>
+                        <p th:text="'Genre: '+${song.genre}">Genre</p>
                     </div>
                 </div>
             </div>
             <div class="player">
                 <audio controls>
-                    <source th:src="@{GetSong/{song}(fileAudio=(${song.fileAudio}))}" th:type="${songType}">
+                    <source th:src="@{GetSong/{song}(song=(${song.fileAudio}))}" type="audio/mpeg">
                     Your browser does not support the audio element.
                   </audio>
             </div>
