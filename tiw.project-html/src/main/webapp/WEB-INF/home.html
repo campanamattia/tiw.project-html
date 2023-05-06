@@ -32,7 +32,7 @@
                     <table>
                         <tbody>
                             <tr th:each="playlist : ${playlists}">
-                                <td><a th:href="@{/Playlist(playlistName=${playlist.name})}">
+                                <td><a th:href="@{Playlist(playlistName=${playlist.name})}">
                                     <span th:text="${playlist.name}">Playlist name</span></a>
                                 </td>
                                 <td><span th:text="${#dates.format(playlist.creationDate , 'dd.MM.yyyy')}">dd.MM.yyy</span></td>
