@@ -15,10 +15,10 @@
         <h2 style="text-align: center;">
             HOME
         </h2>
-        <div th:if="${generalError != null}" th:class="error">
+        <div th:if="${generalError != null}" th:class="error" class="error">
             <p th:text="${generalEerror}">generalError</p>
         </div>
-        <div th:if="${message != null}" style="text-align: center; color: green;">
+        <div th:if="${message != null}" th:class="message" class="message">
             <p th:text="${message}">message</p>
         </div>
         
@@ -31,7 +31,7 @@
                 <div class="vertical">
                     <table>
                         <tbody>
-                            <tr th:each="playtlist : ${playlists}">
+                            <tr th:each="playlist : ${playlists}">
                                 <td><a th:href="@{/Playlist(playlistName=${playlist.name})}">
                                     <span th:text="${playlist.name}">Playlist name</span></a>
                                 </td>
