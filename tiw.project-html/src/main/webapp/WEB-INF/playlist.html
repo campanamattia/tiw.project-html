@@ -12,25 +12,43 @@
         <h1 th:text="${playlistName}" th:class="title" class="title">Title</h1>
         <div th:if="${not #lists.isEmpty(songs)}" class="table">
 			<table>
-				<tbody>
-                    <tr th:each="song : ${songs}">
-                        <td>
-                            <img th:src="@{GetImage/{image}(image=${song.album.fileImage})}" src="../images/icon.png">
-                            <a th:href="@{Player(songId=${song.id})}">
-                                <span th:text="${song.title}" style="font-size: 40px;">
-                                    Title
-                                </span>
-                            </a>
+                <tbody>
+                    <tr>
+                        <td th:each="song : ${songs}">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img th:src="@{GetImage/{image}(image=${song.album.fileImage})}" src="../images/icon.png">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a th:href="@{Player(songId=${song.id})}">
+                                                <span th:text="${song.title}" style="font-size: 40px;">Title</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
                 </tbody>
-			</table>
+            </table>
             <div class="button">
-                <div th:if="${previousButton}">
-                    <a th:href="@{Playlist(playlistName=${playlistName} , lowerBound=(${lowerBound} - 5))}" >PREC</a>
+                <div>
+                    <form method="get" th:action="@{Playlist}">
+                        <input type="hidden" name="playlistName" th:value="${playlistName}" />
+                        <input type="hidden" name="lowerBound" th:value="${lowerBound - 5}" />
+                        <button type="submit" th:if="${previousButton}">PREC</button>
+                    </form>
                 </div>
-                <div th:if="${nextButton}">
-                    <a th:href="@{Playlist(playlistName=${playlistName} , lowerBound=(${lowerBound} + 5))}" >NEXT</a>
+                <div>
+                    <form method="get" th:action="@{Playlist}">
+                        <input type="hidden" name="playlistName" th:value="${playlistName}" />
+                        <input type="hidden" name="lowerBound" th:value="${lowerBound + 5}" />
+                        <button type="submit" th:if="${nextButton}">NEXT</button>
+                    </form>
                 </div>
             </div>
         </div>
