@@ -20,6 +20,11 @@
     top: 10px;
     right: 10px;
 }
+.home{
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
 
 img{
     height: 100px;
