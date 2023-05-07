@@ -17,80 +17,6 @@ public class PlaylistDAO {
 		this.con = c;
 	}
 	
-	// method that returns all playlists related to a User
-	public ArrayList<Playlist> allPlaylists(String userName) throws SQLException {
-		ArrayList<Playlist> result = new ArrayList<Playlist>();
-		String query = "SELECT * FROM PLAYLIST WHERE UserName = ? ORDER BY CreationDate DESC";
-		ResultSet queryRes = null;
-		PreparedStatement pStatement = null;
-		
-		try {
-			pStatement = con.prepareStatement(query);
-			pStatement.setString(1 , userName);
-			
-			queryRes = pStatement.executeQuery();
-			
-			while(queryRes.next()) {
-				result.add( new Playlist(queryRes.getString("Name") , queryRes.getDate("CreationDate")) );
-			}
-		}catch(SQLException e) {
-			throw new SQLException();
-		}finally {
-			try {
-				if(queryRes != null) {
-					queryRes.close();
-				}
-			}catch(Exception e1) {
-				throw new SQLException(e1);
-			}
-			try {
-				if(pStatement != null) {
-					pStatement.close();
-				}
-			}catch(Exception e2) {
-				throw new SQLException(e2);
-			}
-		}
-		
-		return result;
-	}
-	
-	//method that states whether a playlist name is already taken or not
-	public boolean taken(String playlistName, String userName) throws SQLException {
-		boolean result = false;
-		String query = "SELECT * FROM PLAYLIST WHERE Name = ? AND UserName = ?";
-		ResultSet queryRes = null;
-		PreparedStatement pStatement = null;
-		
-		try {
-			pStatement = con.prepareStatement(query);
-			pStatement.setString(1, playlistName);
-			pStatement.setString(2, userName);
-			queryRes = pStatement.executeQuery();
-			
-			if(queryRes.next()) result = true;
-			
-		}catch(SQLException e) {
-			throw new SQLException();
-		}finally {
-			try {
-				if(queryRes != null) {
-					queryRes.close();
-				}
-			}catch(Exception e1) {
-				throw new SQLException(e1);
-			}
-			try {
-				if(pStatement != null) {
-					pStatement.close();
-				}
-			}catch(Exception e2) {
-				throw new SQLException(e2);
-		    }
-		}
-		return result;
-	}
-	
 	//method that creates a new playlist
 	private boolean addPlaylist(String playlistName, String userName, Date creationDate) throws SQLException {
 		boolean result = false;
@@ -219,42 +145,115 @@ public class PlaylistDAO {
 	}
 	
 	//method that verifies whether a playlist belongs to the given user or not
-		public boolean belongTo(String playlistName , String userName) throws SQLException{
-			boolean result = false;
-			String query = "SELECT * FROM PLAYLIST WHERE Name = ? AND UserName = ?";
-			PreparedStatement pStatement = null;
-			ResultSet queryRes = null;
+	public boolean belongTo(String playlistName , String userName) throws SQLException{
+		boolean result = false;
+		String query = "SELECT * FROM PLAYLIST WHERE Name = ? AND UserName = ?";
+		PreparedStatement pStatement = null;
+		ResultSet queryRes = null;
+		
+		try {
+			pStatement = con.prepareStatement(query);
+			pStatement.setString(1, playlistName);
+			pStatement.setString(2, userName);
 			
+			queryRes = pStatement.executeQuery();
+			
+			if(queryRes.next()) {
+				result = true;
+			}
+		}catch(SQLException e) {
+			throw new SQLException();
+		}finally {
 			try {
-				pStatement = con.prepareStatement(query);
-				pStatement.setString(1, playlistName);
-				pStatement.setString(2, userName);
-				
-				queryRes = pStatement.executeQuery();
-				
-				if(queryRes.next()) {
-					result = true;
+				if(queryRes != null) {
+					queryRes.close();
 				}
-			}catch(SQLException e) {
-				throw new SQLException();
-			}finally {
-				try {
-					if(queryRes != null) {
-						queryRes.close();
-					}
-				}catch(Exception e1) {
-					throw new SQLException(e1);
+			}catch(Exception e1) {
+				throw new SQLException(e1);
+			}
+			try {
+				if(pStatement != null) {
+					pStatement.close();
 				}
-				try {
-					if(pStatement != null) {
-						pStatement.close();
-					}
-				}catch(Exception e2) {
-					throw new SQLException(e2);
-				}
-			}	
-			return result;
+			}catch(Exception e2) {
+				throw new SQLException(e2);
+			}
 		}	
+		return result;
+	}	
 
+	// method that returns all playlists related to a User
+	public ArrayList<Playlist> allPlaylists(String userName) throws SQLException {
+		ArrayList<Playlist> result = new ArrayList<Playlist>();
+		String query = "SELECT * FROM PLAYLIST WHERE UserName = ? ORDER BY CreationDate DESC";
+		ResultSet queryRes = null;
+		PreparedStatement pStatement = null;
+		
+		try {
+			pStatement = con.prepareStatement(query);
+			pStatement.setString(1 , userName);
+			
+			queryRes = pStatement.executeQuery();
+			
+			while(queryRes.next()) {
+				result.add( new Playlist(queryRes.getString("Name") , queryRes.getDate("CreationDate")) );
+			}
+		}catch(SQLException e) {
+			throw new SQLException();
+		}finally {
+			try {
+				if(queryRes != null) {
+					queryRes.close();
+				}
+			}catch(Exception e1) {
+				throw new SQLException(e1);
+			}
+			try {
+				if(pStatement != null) {
+					pStatement.close();
+				}
+			}catch(Exception e2) {
+				throw new SQLException(e2);
+			}
+		}
+		
+		return result;
+	}
 	
+	//method that states whether a playlist name is already taken or not
+	public boolean taken(String playlistName, String userName) throws SQLException {
+		boolean result = false;
+		String query = "SELECT * FROM PLAYLIST WHERE Name = ? AND UserName = ?";
+		ResultSet queryRes = null;
+		PreparedStatement pStatement = null;
+		
+		try {
+			pStatement = con.prepareStatement(query);
+			pStatement.setString(1, playlistName);
+			pStatement.setString(2, userName);
+			queryRes = pStatement.executeQuery();
+			
+			if(queryRes.next()) result = true;
+			
+		}catch(SQLException e) {
+			throw new SQLException();
+		}finally {
+			try {
+				if(queryRes != null) {
+					queryRes.close();
+				}
+			}catch(Exception e1) {
+				throw new SQLException(e1);
+			}
+			try {
+				if(pStatement != null) {
+					pStatement.close();
+				}
+			}catch(Exception e2) {
+				throw new SQLException(e2);
+		    }
+		}
+		return result;
+	}
+
 }
