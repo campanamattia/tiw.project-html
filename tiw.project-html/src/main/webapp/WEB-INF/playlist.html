@@ -27,10 +27,10 @@
 			</table>
             <div class="button">
                 <div th:if="${previousButton}">
-                    <button type="button" th:onclick="@{Playlist(playlistName=${playlistName} , lowerBound=(${lowerBound} - 5))}" >PREC</button>
+                    <a th:href="@{Playlist(playlistName=${playlistName} , lowerBound=(${lowerBound} - 5))}" >PREC</a>
                 </div>
                 <div th:if="${nextButton}">
-                    <button type="button" th:onclick="@{Playlist(playlistName=${playlistName} , lowerBound=(${lowerBound} + 5))}" >NEXT</button>
+                    <a th:href="@{Playlist(playlistName=${playlistName} , lowerBound=(${lowerBound} + 5))}" >NEXT</a>
                 </div>
             </div>
         </div>
