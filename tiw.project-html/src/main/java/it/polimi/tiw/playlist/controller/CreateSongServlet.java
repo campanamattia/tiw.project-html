@@ -136,7 +136,7 @@ public class CreateSongServlet extends HttpServlet {
 		boolean alreadyExists = new File(fileImagePath).exists();
 		
 		//storing the two files
-		if(songError != null) {
+		if(songError == null) {
 			if(!alreadyExists) { //if the image file already exists, it will not be replaced		
 				try {
 					Files.copy(fileImage.getInputStream(), new File(fileImagePath).toPath());
@@ -145,7 +145,7 @@ public class CreateSongServlet extends HttpServlet {
 				}
 			}
 			
-			if(songError != null) {
+			if(songError == null) {
 				try {
 					Files.copy(fileAudio.getInputStream(), new File(fileAudioPath).toPath());
 				} catch (Exception e) {
