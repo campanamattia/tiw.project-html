@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpSession;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +20,7 @@ public class PlayerChecker implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 		String HomePath = req.getServletContext().getContextPath() + "/Home?generalError=Song+not+found";
 
-		HttpSession s = req.getSession();
-		if (s.isNew() || request.getParameter("songId") == null || request.getParameter("songId").isEmpty()) {
+		if (req.getParameter("songId") == null || req.getParameter("songId").isEmpty()) {
 			res.sendRedirect(HomePath);
 			return;
 		}
