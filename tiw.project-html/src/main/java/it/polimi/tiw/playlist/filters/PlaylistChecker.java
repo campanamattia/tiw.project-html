@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter( urlPatterns = {"/Playlist"})
+@WebFilter( urlPatterns = {"/Playlist", "/EditPlaylist"})
 public class PlaylistChecker implements Filter {
 	
 	//checks that the page is accessed through the button in the Home page; in case it is not so, redirect to the Home page

@@ -44,20 +44,15 @@ public class EditPlaylistServlet extends HttpServlet {
 		//checking whether playlistName parameter is valid or not
 		String playlistName = request.getParameter("playlistName");
 
-		if(playlistName == null || playlistName.isEmpty()) {
-			error = "Something went wrong";
-		}
-		if(error == null) {
-			try {
-				if( !(playlistDAO.belongTo(playlistName,userName)) ) {
-					error = "Something went wrong";
-				}
-			}
-			catch(SQLException e) {
-				error = "Database error, try again";
+		try {
+			if( !(playlistDAO.belongTo(playlistName,userName)) ) {
+				error = "Something went wrong";
 			}
 		}
-		
+		catch(SQLException e) {
+			error = "Database error, try again";
+		}
+	
 		if(error != null) {
 			String path = servletContext.getContextPath() + "/Home?generalError=" + error;
 			response.sendRedirect(path);
