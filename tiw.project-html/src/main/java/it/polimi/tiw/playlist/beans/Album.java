@@ -1,7 +1,5 @@
 package it.polimi.tiw.playlist.beans;
 
-import java.sql.Date;
-
 public class Album {
     private int id;
     private String title;
