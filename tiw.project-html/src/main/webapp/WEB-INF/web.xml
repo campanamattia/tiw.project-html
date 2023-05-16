@@ -29,6 +29,7 @@
   	</context-param>
   
   <welcome-file-list>
+  	<welcome-file>welcome.jsp</welcome-file>
     <welcome-file>sign-in.html</welcome-file>
     <welcome-file>sign-up.html</welcome-file>
   </welcome-file-list>
