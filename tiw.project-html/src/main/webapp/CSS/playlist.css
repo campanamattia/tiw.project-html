@@ -26,16 +26,11 @@
     left: 10px;
 }
 
-.table{
+.main-div{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.button{
-    display: flex;
-    flex-direction: row;
+    flex-direction: row wrap;
     justify-content: space-between;
+    align-items: center;
 }
 
 .vertical{
